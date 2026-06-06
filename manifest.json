@@ -1,0 +1,51 @@
+{
+  "name": "MenuOS",
+  "short_name": "MenuOS",
+  "description": "Le menu digital pour chaque restaurant — commandes WhatsApp, Mobile Money, fidélité",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0D0D0D",
+  "theme_color": "#1A6B3C",
+  "lang": "fr",
+  "scope": "./",
+  "categories": ["food", "business", "productivity"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Menu client",
+      "short_name": "Menu",
+      "description": "Voir la carte du restaurant",
+      "url": "./index.html#app",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Admin Restaurant",
+      "short_name": "Admin",
+      "description": "Gérer le restaurant",
+      "url": "./index.html#resto-admin",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
