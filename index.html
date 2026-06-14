@@ -341,8 +341,17 @@ body{font-family:'DM Sans',sans-serif;background:#FAF7F2;color:#0D0D0D;overflow-
 .ob-footer-txt{font-size:.78rem;color:rgba(245,240,232,.25);line-height:1.6;margin-top:auto;padding-top:20px}
 .ob-footer-txt a{color:rgba(245,240,232,.45);cursor:pointer}
 .ob-form{width:100%;max-width:520px}
-.ob-progress{height:3px;background:var(--bdr-s);border-radius:100px;margin-bottom:40px;overflow:hidden}
-.ob-progress-fill{height:100%;background:var(--green-s);border-radius:100px;transition:width .4s ease}
+.ob-left-feat{
+  display:flex;align-items:center;gap:10px;
+  font-size:.84rem;color:rgba(255,255,255,.75);
+  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07);
+  line-height:1.4
+}
+.ob-left-feat:last-child{border-bottom:none}
+.ob-form{overflow-y:auto;max-height:100vh;padding:40px;scrollbar-width:none}
+.ob-form::-webkit-scrollbar{display:none}
+.ob-progress{height:3px;background:var(--bdr-s);border-radius:100px;margin-bottom:32px;overflow:hidden}
+.ob-progress-fill{height:100%;background:var(--green-s);border-radius:100px;transition:width .5s ease}
 .ob-step-tag{font-size:.72rem;font-weight:700;letter-spacing:.08em;
   text-transform:uppercase;color:var(--gold-s);margin-bottom:10px}
 .ob-h2{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;
@@ -639,14 +648,14 @@ body{font-family:'DM Sans',sans-serif;background:#FAF7F2;color:#0D0D0D;overflow-
   display:flex;flex-direction:column;overflow:hidden}
 #view-app .cart-drawer.open{transform:translateX(0)}
 #view-app .cart-head{display:flex;align-items:center;justify-content:space-between;
-  padding:20px 20px 16px;border-bottom:1px solid var(--border)}
+  padding:20px 20px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
 #view-app .cart-head h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700}
 #view-app .cart-close{background:none;border:none;color:var(--muted);font-size:1.4rem;
   display:flex;align-items:center;justify-content:center;padding:4px;border-radius:8px;transition:var(--t)}
 #view-app .cart-close:hover{background:var(--lite);color:var(--dark)}
 #view-app .cart-table-tag{background:var(--g);color:white;font-size:.7rem;font-weight:700;
   padding:3px 10px;border-radius:100px;letter-spacing:.04em}
-#view-app .cart-items{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+#view-app .cart-items{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px;min-height:0}
 #view-app .cart-empty{flex:1;display:flex;flex-direction:column;align-items:center;
   justify-content:center;color:var(--muted);font-size:.88rem;gap:10px;padding:40px}
 #view-app .cart-item{display:flex;align-items:center;gap:12px;
@@ -657,7 +666,31 @@ body{font-family:'DM Sans',sans-serif;background:#FAF7F2;color:#0D0D0D;overflow-
 #view-app .cart-item-del{background:none;border:none;color:var(--muted);font-size:1.1rem;
   display:flex;align-items:center;justify-content:center;transition:var(--t);border-radius:6px;padding:2px}
 #view-app .cart-item-del:hover{color:var(--red);background:rgba(229,62,62,.08)}
-#view-app .cart-footer{padding:16px 20px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:12px}
+
+/* cart-footer = zone scrollable + barre sticky en bas */
+#view-app .cart-footer{
+  flex-shrink:0;
+  border-top:1px solid var(--border);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  max-height:62dvh;  /* plafond mobile : ne dépasse pas l'écran */
+}
+#view-app .cart-footer-scroll{
+  overflow-y:auto;
+  padding:14px 20px 0;
+  display:flex;flex-direction:column;gap:12px;
+  scrollbar-width:thin;
+  scrollbar-color:var(--border) transparent;
+}
+#view-app .cart-footer-scroll::-webkit-scrollbar{width:3px}
+#view-app .cart-footer-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:100px}
+#view-app .cart-footer-actions{
+  padding:12px 20px 20px;
+  border-top:1px solid var(--border);
+  background:var(--white);
+  flex-shrink:0;
+  display:flex;flex-direction:column;gap:10px;
+}
 #view-app .cart-total-row{display:flex;justify-content:space-between;align-items:center}
 #view-app .cart-total-lbl{font-size:.85rem;color:var(--muted)}
 #view-app .cart-total-val{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--g)}
@@ -684,6 +717,59 @@ body{font-family:'DM Sans',sans-serif;background:#FAF7F2;color:#0D0D0D;overflow-
   display:flex;align-items:center;justify-content:center;gap:8px;transition:var(--t)}
 #view-app .btn-wa:hover{background:var(--g2);transform:translateY(-1px)}
 #view-app .btn-wa svg{width:20px;height:20px;fill:currentColor}
+
+/* ── F1 : Bouton ticket thermique ─────────────────────────────── */
+.btn-print-ticket{
+  width:100%;padding:11px;border-radius:12px;cursor:pointer;margin-top:8px;
+  background:rgba(26,107,60,.07);border:1.5px solid rgba(26,107,60,.22);
+  color:var(--g);font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:700;
+  transition:all .2s;letter-spacing:.01em}
+.btn-print-ticket:hover{background:rgba(26,107,60,.14);transform:translateY(-1px)}
+
+/* ── F4 : Tracker commande temps réel ───────────────────────── */
+.tracker-steps{display:flex;align-items:flex-start;position:relative;padding:12px 0}
+.tracker-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
+.tracker-step::before{content:'';position:absolute;top:17px;left:50%;width:100%;height:2px;
+  background:var(--border);z-index:0}
+.tracker-step:last-child::before{display:none}
+.tracker-dot{width:34px;height:34px;border-radius:50%;background:var(--lite);
+  border:2px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;position:relative;z-index:1;transition:all .4s}
+.tracker-lbl{font-size:.62rem;font-weight:700;color:var(--muted);text-align:center;
+  text-transform:uppercase;letter-spacing:.05em}
+.tracker-step.done .tracker-dot{background:var(--g);border-color:var(--g);color:white}
+.tracker-step.done .tracker-lbl,.tracker-step.done+.tracker-step::before{color:var(--g)}
+.tracker-step.done::before{background:var(--g)}
+.tracker-step.active .tracker-dot{background:var(--g);border-color:var(--g);color:white;
+  box-shadow:0 0 0 5px rgba(26,107,60,.18);animation:trkPulse 1.6s ease-in-out infinite}
+.tracker-step.active .tracker-lbl{color:var(--g);font-weight:800}
+@keyframes trkPulse{0%,100%{box-shadow:0 0 0 5px rgba(26,107,60,.18)}
+  50%{box-shadow:0 0 0 10px rgba(26,107,60,.06)}}
+
+/* ── F18 : Galerie multi-photos modale plat ─────────────────── */
+.dm-gallery{position:relative;overflow:hidden;line-height:0;background:#111}
+.dm-gallery-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  display:flex;gap:5px;z-index:5;padding:5px 10px;
+  background:rgba(0,0,0,.35);border-radius:100px;backdrop-filter:blur(4px)}
+.dm-gallery-nav{position:absolute;top:50%;transform:translateY(-50%);
+  width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.45);
+  border:none;color:white;font-size:1.4rem;cursor:pointer;z-index:5;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;backdrop-filter:blur(4px)}
+.dm-gallery-nav:hover{background:rgba(0,0,0,.72)}
+.dm-gallery-prev{left:10px}
+.dm-gallery-next{right:10px}
+#dmImg{width:100%;height:240px;object-fit:cover;display:block;transition:opacity .22s}
+
+/* ── F19 : Franchise ─────────────────────────────────────────── */
+.franchise-site-row{display:flex;align-items:center;gap:10px;padding:10px 12px;
+  background:var(--lite);border-radius:10px;margin-bottom:8px;transition:background .2s}
+.franchise-site-row:hover{background:rgba(26,107,60,.08)}
+
+/* ── F8 : Gold button clôture ────────────────────────────────── */
+.ra-btn-gold{background:linear-gradient(135deg,#C9A84C,#a87d2a)!important;
+  color:white!important;border:none!important}
+.ra-btn-gold:hover{filter:brightness(1.1);transform:translateY(-1px)}
 
 /* ADMIN */
 #view-app .admin-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);
@@ -912,17 +998,19 @@ body{font-family:'DM Sans',sans-serif;background:#FAF7F2;color:#0D0D0D;overflow-
     max-width:100%;
     border-radius:20px 20px 0 0;
     top:auto;
-    height:92vh;
-    max-height:92vh;
+    height:92dvh;
+    max-height:92dvh;
   }
   #view-app .cart-head { padding:16px 16px 14px; }
   #view-app .cart-head h3 { font-size:1.1rem; }
   #view-app .cart-items { padding:12px 14px; gap:10px; }
-  #view-app .cart-footer { padding:12px 14px 20px; }
+  #view-app .cart-footer { max-height:55dvh; }
+  #view-app .cart-footer-scroll { padding:10px 14px 0; gap:10px; }
+  #view-app .cart-footer-actions { padding:10px 14px 16px; gap:8px; }
   #view-app .cart-item-name { font-size:.82rem; }
   #view-app .cart-item-qty { font-size:.7rem; }
   #view-app .cart-item-price { font-size:.82rem; }
-  #view-app .cart-total-row { margin-bottom:10px; }
+  #view-app .cart-total-row { margin-bottom:6px; }
   #view-app .cart-total-lbl { font-size:.88rem; }
   #view-app .cart-total-val { font-size:1.1rem; }
   #view-app .btn-wa { padding:13px; font-size:.86rem; border-radius:12px; }
@@ -932,7 +1020,7 @@ body{font-family:'DM Sans',sans-serif;background:#FAF7F2;color:#0D0D0D;overflow-
   #view-app .promo-apply { padding:8px 12px; font-size:.76rem; }
 
   /* MODAL PLAT — bottom sheet */
-  #view-app .dish-modal { border-radius:20px 20px 0 0; max-height:85vh; }
+  #view-app .dish-modal { border-radius:20px 20px 0 0; max-height:85dvh; }
   #view-app .dish-modal-img { height:180px; }
   #view-app .dish-modal-body { padding:16px 18px 24px; }
   #view-app .dish-modal-name { font-size:1.4rem; }
@@ -1806,6 +1894,10 @@ body.dark-mode .dark-toggle::after{transform:translateX(18px);}
   .dev-mobile-nav-btn .icon { font-size:1.2rem; }
   .dev-content { padding:16px 14px 80px; }
 }
+
+/* ── Toast resto-admin ───────────────────────────────────────── */
+#raToast {
+  position: fixed; bottom: 90px; left: 50%;
   transform: translateX(-50%);
   background: var(--dark); color: white;
   padding: 11px 22px; border-radius: 100px;
@@ -2069,84 +2161,96 @@ body.dark-mode .dark-toggle::after{transform:translateX(18px);}
   <div class="ob-wrap">
     <div class="ob-left">
       <div class="ob-logo" onclick="goto('landing')"><div class="ob-logo-icon">🍽</div>MenuOS</div>
-      <div id="ob-steps-nav">
-        <div class="ob-step-item active" id="ob-nav-1"><div class="ob-step-dot">1</div><div><div class="ob-step-label">Étape 1</div><div class="ob-step-title">Votre restaurant</div></div></div>
-        <div class="ob-step-item" id="ob-nav-2"><div class="ob-step-dot">2</div><div><div class="ob-step-label">Étape 2</div><div class="ob-step-title">Votre compte admin</div></div></div>
-        <div class="ob-step-item" id="ob-nav-3"><div class="ob-step-dot">3</div><div><div class="ob-step-label">Étape 3</div><div class="ob-step-title">Choisir un plan</div></div></div>
+      <div style="margin-top:32px">
+        <div class="ob-left-feat">✅ Menu digital en ligne en 2 minutes</div>
+        <div class="ob-left-feat">✅ Commandes WhatsApp automatiques</div>
+        <div class="ob-left-feat">✅ QR Code pour chaque table</div>
+        <div class="ob-left-feat">✅ Statistiques en temps réel</div>
+        <div class="ob-left-feat">✅ Aucune carte bancaire requise</div>
       </div>
-      <div class="ob-footer-txt">Déjà un compte ? <a onclick="goto('dashboard')">Se connecter</a></div>
+      <div class="ob-footer-txt" style="margin-top:auto">Déjà un compte ? <a onclick="goto('dashboard')">Se connecter</a></div>
     </div>
     <div class="ob-right">
       <div class="ob-form">
-        <div class="ob-progress"><div class="ob-progress-fill" id="ob-progress" style="width:33%"></div></div>
-        <!-- Step 1 -->
+        <div class="ob-progress"><div class="ob-progress-fill" id="ob-progress" style="width:0%"></div></div>
+
+        <!-- Formulaire unique simplifié -->
         <div id="ob-step1">
-          <div class="ob-step-tag">Étape 1 sur 3</div>
-          <h2 class="ob-h2">Parlez-nous de votre restaurant</h2>
-          <p class="ob-p">Ces informations apparaîtront sur votre menu digital.</p>
-          <div class="ob-field"><label>Nom du restaurant <span>*</span></label>
-            <input type="text" id="ob-name" placeholder="Ex : Chez Mamadou"/>
-            <div class="ob-field-err" id="ob-err-name">Veuillez saisir le nom.</div></div>
-          <div class="ob-field"><label>URL de votre menu</label>
-            <div class="ob-slug-wrap"><div class="ob-slug-prefix">menuos.app/</div>
-              <input type="text" id="ob-slug" placeholder="chez-mamadou"/>
-              <div class="ob-slug-status" id="ob-slug-st">–</div></div>
-            <div class="ob-field-hint">Votre adresse unique.</div>
-            <div class="ob-field-err" id="ob-err-slug">Ce nom est déjà pris.</div></div>
+          <div class="ob-step-tag">Inscription gratuite</div>
+          <h2 class="ob-h2">Créez votre restaurant</h2>
+          <p class="ob-p">Renseignez vos informations — votre menu sera en ligne en 2 minutes.</p>
+
+          <!-- Nom restaurant -->
+          <div class="ob-field">
+            <label>Nom du restaurant <span>*</span></label>
+            <input type="text" id="ob-name" placeholder="Ex : Chez Mamadou" oninput="obAutoSlug()" autocomplete="organization"/>
+            <div class="ob-field-err" id="ob-err-name">Veuillez saisir le nom du restaurant.</div>
+          </div>
+
+          <!-- Nom propriétaire -->
+          <div class="ob-field">
+            <label>Nom du propriétaire <span>*</span></label>
+            <input type="text" id="ob-owner" placeholder="Ex : Mamadou Traoré" autocomplete="name"/>
+            <div class="ob-field-err" id="ob-err-owner">Veuillez saisir votre nom.</div>
+          </div>
+
+          <!-- WhatsApp + Téléphone -->
           <div class="ob-field-row">
-            <div class="ob-field"><label>Ville <span>*</span></label><input type="text" id="ob-city" placeholder="Ouagadougou"/></div>
-            <div class="ob-field"><label>WhatsApp <span>*</span></label><input type="tel" id="ob-wa" placeholder="+22670000000"/>
-              <div class="ob-field-hint">Les commandes arriveront ici.</div></div>
+            <div class="ob-field">
+              <label>WhatsApp commandes <span>*</span></label>
+              <input type="tel" id="ob-wa" placeholder="+226 70 00 00 00" autocomplete="tel"/>
+              <div class="ob-field-hint">Les commandes arrivent ici.</div>
+              <div class="ob-field-err" id="ob-err-wa">Numéro requis.</div>
+            </div>
+            <div class="ob-field">
+              <label>Téléphone</label>
+              <input type="tel" id="ob-phone" placeholder="+226 25 00 00 00" autocomplete="tel"/>
+            </div>
           </div>
-          <div class="ob-field"><label>Adresse</label><input type="text" id="ob-addr" placeholder="Rue 14.45, Cissin"/></div>
-          <div class="ob-btn-row"><button class="ob-btn-next" onclick="obStep(2)">Continuer →</button></div>
-        </div>
-        <!-- Step 2 -->
-        <div id="ob-step2" style="display:none">
-          <div class="ob-step-tag">Étape 2 sur 3</div>
-          <h2 class="ob-h2">Créez votre compte admin</h2>
-          <p class="ob-p">Ces identifiants vous permettront de gérer votre menu et commandes.</p>
-          <div class="ob-field"><label>Email <span>*</span></label>
-            <input type="email" id="ob-email" placeholder="vous@email.com"/>
-            <div class="ob-field-err" id="ob-err-email">Email invalide.</div></div>
+
+          <!-- Adresse -->
+          <div class="ob-field">
+            <label>Adresse du restaurant <span>*</span></label>
+            <input type="text" id="ob-addr" placeholder="Ex : Rue 14.45, Cissin, Ouagadougou" autocomplete="street-address"/>
+            <div class="ob-field-err" id="ob-err-addr">Veuillez saisir l'adresse.</div>
+          </div>
+
+          <!-- PIN admin -->
           <div class="ob-field-row">
-            <div class="ob-field"><label>Mot de passe <span>*</span></label>
-              <input type="password" id="ob-pwd" placeholder="8 caractères min."/>
-              <div class="ob-field-err" id="ob-err-pwd">Minimum 8 caractères.</div></div>
-            <div class="ob-field"><label>Confirmer <span>*</span></label>
-              <input type="password" id="ob-pwd2" placeholder="Répéter"/>
-              <div class="ob-field-err" id="ob-err-pwd2">Les mots de passe diffèrent.</div></div>
+            <div class="ob-field">
+              <label>Code PIN admin <span>*</span> <span class="ob-field-hint" style="display:inline;font-size:.68rem">(4 chiffres)</span></label>
+              <input type="password" id="ob-pin" placeholder="••••" maxlength="4" inputmode="numeric" pattern="\d{4}" autocomplete="new-password"/>
+              <div class="ob-field-err" id="ob-err-pin">PIN invalide (4 chiffres requis).</div>
+            </div>
+            <div class="ob-field">
+              <label>Confirmer le PIN <span>*</span></label>
+              <input type="password" id="ob-pin2" placeholder="••••" maxlength="4" inputmode="numeric" pattern="\d{4}" autocomplete="new-password"/>
+              <div class="ob-field-err" id="ob-err-pin2">Les PINs ne correspondent pas.</div>
+            </div>
           </div>
-          <div class="ob-btn-row">
-            <button class="ob-btn-back" onclick="obStep(1)">← Retour</button>
-            <button class="ob-btn-next" onclick="obStep(3)">Continuer →</button>
+          <div style="font-size:.75rem;color:var(--muted-s);margin:-12px 0 20px;line-height:1.5">
+            🔐 Ce PIN protège votre espace admin (commandes, menu, paramètres). Vous pourrez le changer à tout moment.
           </div>
-        </div>
-        <!-- Step 3 -->
-        <div id="ob-step3" style="display:none">
-          <div class="ob-step-tag">Étape 3 sur 3</div>
-          <h2 class="ob-h2">Choisissez votre plan</h2>
-          <p class="ob-p">Commencez gratuitement, passez au Pro quand vous voulez.</p>
-          <div class="ob-plan-cards">
-            <div class="ob-plan-card sel" onclick="obSelectPlan('starter',this)"><div class="ob-plan-card-name">Starter</div><div class="ob-plan-card-price">0 <small>F</small></div></div>
-            <div class="ob-plan-card" onclick="obSelectPlan('pro',this)"><div class="ob-plan-card-name">Pro</div><div class="ob-plan-card-price">9 900 <small>F</small></div></div>
-            <div class="ob-plan-card" onclick="obSelectPlan('business',this)"><div class="ob-plan-card-name">Business</div><div class="ob-plan-card-price">24 900 <small>F</small></div></div>
-          </div>
-          <div style="background:rgba(26,107,60,.06);border:1px solid rgba(26,107,60,.15);border-radius:12px;padding:16px;font-size:.82rem;color:var(--muted-s);line-height:1.65;margin-bottom:24px">
-            <strong style="color:var(--green-s)">✓ Essai Pro gratuit 14 jours</strong><br>Aucune carte bancaire requise.</div>
-          <div class="ob-btn-row">
-            <button class="ob-btn-back" onclick="obStep(2)">← Retour</button>
-            <button class="ob-btn-next" id="ob-btn-create" onclick="obCreate()">Créer mon restaurant →</button>
+
+          <!-- Bouton création -->
+          <button class="ob-btn-next" id="ob-btn-create" onclick="obCreate()" style="width:100%">
+            Créer mon restaurant →
+          </button>
+          <div style="text-align:center;margin-top:14px;font-size:.75rem;color:var(--muted-s)">
+            En créant un compte, vous acceptez les <a href="#" style="color:var(--green-s)">CGU</a> de MenuOS.
           </div>
         </div>
-        <!-- Success -->
-        <div id="ob-success" class="ob-success">
+
+        <!-- Succès -->
+        <div id="ob-success" class="ob-success" style="display:none">
           <div class="ob-success-icon">🎉</div>
           <h2>Votre restaurant est en ligne !</h2>
           <p>Votre menu digital est prêt. Partagez ce lien à vos clients.</p>
-          <div class="ob-url-box"><span id="ob-success-url"></span>
-            <button class="ob-btn-copy" onclick="navigator.clipboard.writeText(document.getElementById('ob-success-url').textContent);gToast('Lien copié !')">Copier</button></div>
-          <button class="ob-btn-go" onclick="goto('dashboard')">Accéder à mon dashboard →</button>
+          <div class="ob-url-box">
+            <span id="ob-success-url"></span>
+            <button class="ob-btn-copy" onclick="navigator.clipboard.writeText(document.getElementById('ob-success-url').textContent);gToast('Lien copié !')">Copier</button>
+          </div>
+          <button class="ob-btn-go" onclick="goto('app')">Accéder à mon menu →</button>
         </div>
       </div>
     </div>
@@ -2301,62 +2405,83 @@ body.dark-mode .dark-toggle::after{transform:translateX(18px);}
     </div>
     <div class="cart-items" id="cartItems"></div>
     <div class="cart-footer">
-      <div class="cart-total-row">
-        <span class="cart-total-lbl">Total</span>
-        <span class="cart-total-val" id="cartTotal">0 F CFA</span>
+      <!-- Zone scrollable : tout sauf les boutons d'action -->
+      <div class="cart-footer-scroll">
+
+        <!-- Total -->
+        <div class="cart-total-row">
+          <span class="cart-total-lbl">Total</span>
+          <span class="cart-total-val" id="cartTotal">0 F CFA</span>
+        </div>
+
+        <!-- Programme Fidélité -->
+        <div style="background:rgba(26,107,60,.06);border:1px solid rgba(26,107,60,.15);border-radius:12px;padding:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <div style="font-size:.75rem;font-weight:700;color:var(--g)">🎁 Programme Fidélité</div>
+            <div class="loyalty-badge" id="loyaltyPointsBadge">0 pts</div>
+          </div>
+          <div class="loyalty-bar-track"><div class="loyalty-bar-fill" id="loyaltyBarFill" style="width:0%"></div></div>
+          <div style="font-size:.68rem;color:var(--muted);margin-top:4px" id="loyaltyNextReward">Accumulez 100 pts pour une remise</div>
+        </div>
+
+        <!-- Type de commande -->
+        <div class="order-type-sel">
+          <div class="order-type-lbl">Type de commande</div>
+          <div class="order-type-btns">
+            <button class="order-type-btn active" id="btn-surplace" onclick="setOrderType('surplace')">🍽️ Sur place</button>
+            <button class="order-type-btn" id="btn-livraison" onclick="setOrderType('livraison')">🛵 Livraison</button>
+          </div>
+          <div class="geo-status" id="geoStatus"><span id="geoStatusText">Activation…</span></div>
+        </div>
+
+        <!-- Note cuisine -->
+        <textarea class="cart-note" id="cartNote" rows="2" placeholder="Note pour la cuisine…"></textarea>
+
+        <!-- Moyen de paiement -->
+        <div>
+          <div style="font-size:.7rem;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Moyen de paiement</div>
+          <div class="payment-method active" id="pm-whatsapp" onclick="selectPayment('whatsapp',this)">
+            <div class="payment-method-icon">💬</div>
+            <div><div style="font-size:.84rem;font-weight:700;color:var(--dark)">WhatsApp</div><div style="font-size:.7rem;color:var(--muted)">Confirmer & payer sur place</div></div>
+            <div class="payment-method-check">✓</div>
+          </div>
+          <div class="payment-method" id="pm-orange" onclick="selectPayment('orange',this)">
+            <div class="payment-method-icon" style="background:rgba(255,100,0,.1)">🟠</div>
+            <div><div style="font-size:.84rem;font-weight:700;color:var(--dark)">Orange Money</div><div style="font-size:.7rem;color:var(--muted)">Paiement mobile instantané</div></div>
+            <div class="payment-method-check"></div>
+          </div>
+          <div class="mobile-money-input" id="orangeInput"><input class="mm-number" id="orangeNumber" placeholder="ex: 0700 00 00 00" type="tel"/></div>
+          <div class="payment-method" id="pm-moov" onclick="selectPayment('moov',this)">
+            <div class="payment-method-icon" style="background:rgba(0,100,255,.08)">🔵</div>
+            <div><div style="font-size:.84rem;font-weight:700;color:var(--dark)">Moov Money</div><div style="font-size:.7rem;color:var(--muted)">Paiement mobile instantané</div></div>
+            <div class="payment-method-check"></div>
+          </div>
+          <div class="mobile-money-input" id="moovInput"><input class="mm-number" id="moovNumber" placeholder="ex: 0100 00 00 00" type="tel"/></div>
+        </div>
+
+        <!-- Code promo — tout en bas du scroll, juste avant les boutons -->
+        <div style="padding-bottom:4px">
+          <div class="promo-input-row">
+            <input class="promo-input" id="promoCodeInput" placeholder="CODE PROMO" maxlength="12" style="text-transform:uppercase"/>
+            <button class="promo-apply" onclick="applyPromoCode()">Appliquer</button>
+          </div>
+          <div class="promo-success" id="promoSuccess">✅ <span id="promoMsg">Code appliqué</span></div>
+        </div>
+
+      </div><!-- /cart-footer-scroll -->
+
+      <!-- Boutons d'action — toujours visibles en bas -->
+      <div class="cart-footer-actions">
+        <button class="btn-wa" onclick="sendWhatsApp()">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.122 1.522 5.856L.054 23.5 6.03 22.02A11.935 11.935 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.372l-.36-.213-3.72.976.994-3.621-.234-.374A9.818 9.818 0 0112 2.182c5.422 0 9.818 4.396 9.818 9.818 0 5.423-4.396 9.818-9.818 9.818z"/></svg>
+          Commander via WhatsApp
+        </button>
+        <button class="btn-print-ticket" id="btnPrintTicket" onclick="printThermalTicket()" title="Imprimer ticket thermique (Bluetooth ESC/POS)">
+          🖨️ Imprimer ticket
+        </button>
       </div>
-      <!-- CODE PROMO -->
-      <div style="margin-bottom:10px">
-        <div class="promo-input-row">
-          <input class="promo-input" id="promoCodeInput" placeholder="CODE PROMO" maxlength="12" style="text-transform:uppercase"/>
-          <button class="promo-apply" onclick="applyPromoCode()">Appliquer</button>
-        </div>
-        <div class="promo-success" id="promoSuccess">✅ <span id="promoMsg">Code appliqué</span></div>
-      </div>
-      <!-- FIDÉLITÉ -->
-      <div style="background:rgba(26,107,60,.06);border:1px solid rgba(26,107,60,.15);border-radius:12px;padding:12px;margin-bottom:10px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <div style="font-size:.75rem;font-weight:700;color:var(--g)">🎁 Programme Fidélité</div>
-          <div class="loyalty-badge" id="loyaltyPointsBadge">0 pts</div>
-        </div>
-        <div class="loyalty-bar-track"><div class="loyalty-bar-fill" id="loyaltyBarFill" style="width:0%"></div></div>
-        <div style="font-size:.68rem;color:var(--muted);margin-top:4px" id="loyaltyNextReward">Accumulez 100 pts pour une remise</div>
-      </div>
-      <div class="order-type-sel">
-        <div class="order-type-lbl">Type de commande</div>
-        <div class="order-type-btns">
-          <button class="order-type-btn active" id="btn-surplace" onclick="setOrderType('surplace')">🍽️ Sur place</button>
-          <button class="order-type-btn" id="btn-livraison" onclick="setOrderType('livraison')">🛵 Livraison</button>
-        </div>
-        <div class="geo-status" id="geoStatus"><span id="geoStatusText">Activation…</span></div>
-      </div>
-      <textarea class="cart-note" id="cartNote" rows="2" placeholder="Note pour la cuisine…"></textarea>
-      <!-- MOBILE MONEY -->
-      <div style="margin-bottom:10px">
-        <div style="font-size:.7rem;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Moyen de paiement</div>
-        <div class="payment-method active" id="pm-whatsapp" onclick="selectPayment('whatsapp',this)">
-          <div class="payment-method-icon">💬</div>
-          <div><div style="font-size:.84rem;font-weight:700;color:var(--dark)">WhatsApp</div><div style="font-size:.7rem;color:var(--muted)">Confirmer & payer sur place</div></div>
-          <div class="payment-method-check">✓</div>
-        </div>
-        <div class="payment-method" id="pm-orange" onclick="selectPayment('orange',this)">
-          <div class="payment-method-icon" style="background:rgba(255,100,0,.1)">🟠</div>
-          <div><div style="font-size:.84rem;font-weight:700;color:var(--dark)">Orange Money</div><div style="font-size:.7rem;color:var(--muted)">Paiement mobile instantané</div></div>
-          <div class="payment-method-check"></div>
-        </div>
-        <div class="mobile-money-input" id="orangeInput"><input class="mm-number" id="orangeNumber" placeholder="ex: 0700 00 00 00" type="tel"/></div>
-        <div class="payment-method" id="pm-moov" onclick="selectPayment('moov',this)">
-          <div class="payment-method-icon" style="background:rgba(0,100,255,.08)">🔵</div>
-          <div><div style="font-size:.84rem;font-weight:700;color:var(--dark)">Moov Money</div><div style="font-size:.7rem;color:var(--muted)">Paiement mobile instantané</div></div>
-          <div class="payment-method-check"></div>
-        </div>
-        <div class="mobile-money-input" id="moovInput"><input class="mm-number" id="moovNumber" placeholder="ex: 0100 00 00 00" type="tel"/></div>
-      </div>
-      <button class="btn-wa" onclick="sendWhatsApp()">
-        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.553 4.122 1.522 5.856L.054 23.5 6.03 22.02A11.935 11.935 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.372l-.36-.213-3.72.976.994-3.621-.234-.374A9.818 9.818 0 0112 2.182c5.422 0 9.818 4.396 9.818 9.818 0 5.423-4.396 9.818-9.818 9.818z"/></svg>
-        Commander via WhatsApp
-      </button>
-    </div>
+
+    </div><!-- /cart-footer -->
   </div>
   <!-- Admin Panel -->
   <div class="admin-overlay" id="adminOverlay">
@@ -2473,16 +2598,24 @@ body.dark-mode .dark-toggle::after{transform:translateX(18px);}
   <div class="print-qr-sheet" id="printQrSheet" style="display:none"></div>
   <div class="toast-app" id="toastApp"></div>
 
-  <!-- Modale détail plat -->
+  <!-- Modale détail plat — F18 galerie multi-photos -->
   <div class="dish-modal-overlay" id="dishModal" onclick="if(event.target===this)closeDishModal()">
     <div class="dish-modal" id="dishModalBox" style="position:relative">
       <button class="dish-modal-close" onclick="closeDishModal()">✕</button>
-      <img class="dish-modal-img" id="dmImg" src="" alt=""/>
+      <!-- Galerie swipeable -->
+      <div class="dm-gallery" id="dmGallery">
+        <img class="dish-modal-img" id="dmImg" src="" alt=""/>
+        <div class="dm-gallery-dots" id="dmGalleryDots"></div>
+        <button class="dm-gallery-nav dm-gallery-prev" id="dmGalleryPrev" onclick="dmGalleryNav(-1)">‹</button>
+        <button class="dm-gallery-nav dm-gallery-next" id="dmGalleryNext" onclick="dmGalleryNav(1)">›</button>
+      </div>
       <div class="dish-modal-body">
         <div class="dish-modal-cat"  id="dmCat"></div>
         <div class="dish-modal-name" id="dmName"></div>
         <div style="display:flex;gap:8px;margin-bottom:8px" id="dmPrepTime"></div>
         <div class="dish-modal-desc" id="dmDesc"></div>
+        <!-- F14 : suggestion IA basée historique -->
+        <div id="dmSuggestion" style="display:none;background:rgba(26,107,60,.06);border:1px solid rgba(26,107,60,.15);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:.78rem;color:var(--g)"></div>
         <div class="dish-modal-footer">
           <div class="dish-modal-price" id="dmPrice"></div>
           <div id="dmAction"></div>
@@ -2491,23 +2624,28 @@ body.dark-mode .dark-toggle::after{transform:translateX(18px);}
     </div>
   </div>
 
-  <!-- SUIVI COMMANDE MODAL (Fonctionnalité 17) -->
+  <!-- F4 : SUIVI COMMANDE TEMPS RÉEL (Firestore live) -->
   <div id="orderTrackerModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:700;backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px">
     <div style="background:white;border-radius:20px;padding:28px;max-width:440px;width:100%">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
         <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--dark)">🚚 Suivi de commande</div>
-        <button onclick="document.getElementById('orderTrackerModal').style.display='none'" style="background:var(--lite);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1rem">✕</button>
+        <button onclick="closeOrderTracker()" style="background:var(--lite);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1rem">✕</button>
       </div>
-      <div style="font-size:.78rem;color:var(--muted);margin-bottom:20px">Commande <strong id="trackerOrderId">#—</strong></div>
+      <div style="font-size:.78rem;color:var(--muted);margin-bottom:4px">Commande <strong id="trackerOrderId">#—</strong></div>
+      <!-- F5 : bouton reçu WhatsApp -->
+      <button id="trackerReceiptBtn" onclick="sendReceiptWhatsApp()" style="display:none;margin-bottom:16px;width:100%;padding:9px;background:rgba(26,107,60,.08);border:1px solid rgba(26,107,60,.2);border-radius:10px;font-size:.8rem;font-weight:700;color:var(--g);cursor:pointer">📩 Recevoir mon reçu sur WhatsApp</button>
       <div class="tracker-steps">
         <div class="tracker-step done" id="track-1"><div class="tracker-dot">✓</div><div class="tracker-lbl">Reçue</div></div>
-        <div class="tracker-step active" id="track-2"><div class="tracker-dot">🔥</div><div class="tracker-lbl">Préparation</div></div>
+        <div class="tracker-step" id="track-2"><div class="tracker-dot">🔥</div><div class="tracker-lbl">Préparation</div></div>
         <div class="tracker-step" id="track-3"><div class="tracker-dot">📦</div><div class="tracker-lbl">Prête</div></div>
         <div class="tracker-step" id="track-4"><div class="tracker-dot">🛵</div><div class="tracker-lbl">Livrée</div></div>
       </div>
       <div style="background:var(--lite);border-radius:12px;padding:14px;text-align:center;margin-top:20px">
         <div style="font-size:.8rem;color:var(--muted);margin-bottom:4px">Estimation</div>
         <div style="font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900;color:var(--g)" id="trackerETA">~15 min</div>
+      </div>
+      <div id="trackerLiveStatus" style="margin-top:12px;text-align:center;font-size:.72rem;color:var(--muted)">
+        🔴 En attente de connexion live…
       </div>
     </div>
   </div>
@@ -2806,6 +2944,25 @@ body.dark-mode .dark-toggle::after{transform:translateX(18px);}
               </div>
             </div>
           </div>
+          <!-- F19 : Mode Franchise -->
+          <div class="ra-settings-card" style="grid-column:span 2">
+            <h3>🏢 Mode Franchise <span style="background:rgba(201,168,76,.15);color:var(--gold);font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:100px;margin-left:6px">BUSINESS</span></h3>
+            <p style="font-size:.82rem;color:var(--muted);margin-bottom:14px;line-height:1.6">Gérez plusieurs établissements depuis un seul compte. Menu partagé ou indépendant par site.</p>
+            <div id="franchiseList" style="margin-bottom:14px"></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="ra-btn ra-btn-green" onclick="franchiseAddSite()">+ Ajouter un site</button>
+              <button class="ra-btn ra-btn-outline" style="border:1.5px solid var(--border)" onclick="franchiseShowStats()">📊 Stats consolidées</button>
+              <button class="ra-btn ra-btn-outline" style="border:1.5px solid var(--border)" onclick="franchiseSyncMenu()">🔄 Synchroniser le menu</button>
+            </div>
+          </div>
+          <!-- F8 : Dashboard revenus + clôture journalière -->
+          <div class="ra-settings-card" style="grid-column:span 2">
+            <h3>📊 Dashboard Revenus & Clôture</h3>
+            <div id="raRevenueWidgetSettings" style="margin-bottom:14px"></div>
+            <button class="ra-btn ra-btn-gold" style="width:100%;justify-content:center" onclick="raCloture()">
+              🔒 Clôturer la journée → Rapport WhatsApp
+            </button>
+          </div>
         </div>
       </div>
 
@@ -2847,28 +3004,25 @@ body.dark-mode .dark-toggle::after{transform:translateX(18px);}
 ════════════════════════════════════════════════════════════════ -->
 <div id="view-dev-admin" class="view">
 
-  <!-- LOGIN DEV -->
+  <!-- LOGIN -->
   <div id="dev-login-screen" class="dev-login-wrap">
     <div class="dev-login-box">
       <div class="dev-login-icon">🛠️</div>
       <div class="dev-login-title">Admin Développeur</div>
       <div class="dev-login-sub">Accès réservé à l'équipe technique MenuOS.<br>Gestion des abonnements, licences et infrastructure.</div>
       <input class="dev-input" id="dev-login-email" type="email" placeholder="dev@menuos.app"/>
-      <input class="dev-input" id="dev-login-pwd" type="password" placeholder="Mot de passe développeur" onkeydown="if(event.key==='Enter')devLogin()"/>
+      <input class="dev-input" id="dev-login-pwd" type="password" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')devLogin()"/>
       <button class="dev-login-btn" onclick="devLogin()">Accéder au panel →</button>
-      <div style="margin-top:20px;font-size:.72rem;color:rgba(255,255,255,.2)">Demo : dev@menuos.app / dev2024</div>
     </div>
   </div>
 
   <!-- PANEL PRINCIPAL -->
   <div id="dev-main-screen" style="display:none">
     <div class="dev-layout">
+
       <!-- Sidebar -->
       <div class="dev-sidebar">
-        <div class="dev-logo">
-          <span>🛠️</span> DevPanel
-          <span class="dev-logo-badge">v2</span>
-        </div>
+        <div class="dev-logo"><span>🛠️</span> DevPanel <span class="dev-logo-badge">v3</span></div>
         <div class="dev-nav-section">Principal</div>
         <div class="dev-link active" onclick="devShowPanel('dashboard',this)"><span class="dev-icon">📊</span> Dashboard</div>
         <div class="dev-link" onclick="devShowPanel('subscriptions',this)"><span class="dev-icon">💳</span> Abonnements</div>
@@ -2880,7 +3034,7 @@ body.dark-mode .dark-toggle::after{transform:translateX(18px);}
           <div class="dev-footer-badge">
             <div class="dev-footer-dot"></div>
             <div>
-              <div class="dev-footer-label">Connecté en tant que</div>
+              <div class="dev-footer-label">Connecté</div>
               <div class="dev-footer-val" id="dev-logged-email">—</div>
             </div>
           </div>
@@ -2892,7 +3046,7 @@ body.dark-mode .dark-toggle::after{transform:translateX(18px);}
       <div class="dev-main">
         <div class="dev-topbar">
           <div>
-            <div class="dev-topbar h1" id="dev-panel-title" style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;color:white">Dashboard</div>
+            <div style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;color:white" id="dev-panel-title">Dashboard</div>
             <div class="dev-topbar-sub" id="dev-panel-sub">Vue globale de la plateforme</div>
           </div>
           <div class="dev-topbar-actions">
@@ -2903,99 +3057,157 @@ body.dark-mode .dark-toggle::after{transform:translateX(18px);}
 
         <div class="dev-content">
 
-          <!-- ── PANEL DASHBOARD ─────────────────────────── -->
+          <!-- ── DASHBOARD ─── -->
           <div class="dev-panel active" id="dev-p-dashboard">
             <div class="dev-kpis" id="dev-kpis-wrap">
-              <div class="dev-kpi green"><div class="dev-kpi-lbl">Abonnés actifs</div><div class="dev-kpi-val" id="dk-active">—</div><div class="dev-kpi-sub" id="dk-active-sub">—</div></div>
-              <div class="dev-kpi gold"><div class="dev-kpi-lbl">MRR</div><div class="dev-kpi-val" id="dk-mrr">—</div><div class="dev-kpi-sub">Revenus mensuels</div></div>
-              <div class="dev-kpi"><div class="dev-kpi-lbl">Total restaurants</div><div class="dev-kpi-val" id="dk-total">—</div><div class="dev-kpi-sub">Inscrits</div></div>
-              <div class="dev-kpi red"><div class="dev-kpi-lbl">Expirés / Suspendus</div><div class="dev-kpi-val" id="dk-issues">—</div><div class="dev-kpi-sub">À traiter</div></div>
+              <div class="dev-kpi green">
+                <div class="dev-kpi-lbl">Abonnés actifs</div>
+                <div class="dev-kpi-val" id="dk-active">—</div>
+                <div class="dev-kpi-sub" id="dk-active-sub">—</div>
+              </div>
+              <div class="dev-kpi gold">
+                <div class="dev-kpi-lbl">MRR</div>
+                <div class="dev-kpi-val" id="dk-mrr">—</div>
+                <div class="dev-kpi-sub">Revenus mensuels estimés</div>
+              </div>
+              <div class="dev-kpi">
+                <div class="dev-kpi-lbl">Total restaurants</div>
+                <div class="dev-kpi-val" id="dk-total">—</div>
+                <div class="dev-kpi-sub">Inscrits</div>
+              </div>
+              <div class="dev-kpi red">
+                <div class="dev-kpi-lbl">Problèmes</div>
+                <div class="dev-kpi-val" id="dk-issues">—</div>
+                <div class="dev-kpi-sub">Expirés + Suspendus</div>
+              </div>
             </div>
-            <!-- Graphique MRR simplifié -->
-            <div style="background:#111a14;border:1px solid rgba(26,107,60,.15);border-radius:16px;padding:24px;margin-bottom:20px">
-              <div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:white;margin-bottom:16px">📈 Évolution MRR — 6 mois</div>
-              <div style="display:flex;align-items:flex-end;gap:8px;height:80px" id="dev-mrr-chart"></div>
-              <div style="display:flex;gap:8px;margin-top:8px" id="dev-mrr-labels"></div>
+
+            <!-- Répartition par durée -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+              <div class="dev-card">
+                <div class="dev-card-title">📅 Répartition par durée</div>
+                <div id="dk-duration-breakdown" style="margin-top:12px"></div>
+              </div>
+              <div class="dev-card">
+                <div class="dev-card-title">📈 MRR — 6 mois</div>
+                <div style="display:flex;align-items:flex-end;gap:6px;height:70px;margin-top:12px" id="dev-mrr-chart"></div>
+                <div style="display:flex;gap:6px;margin-top:6px" id="dev-mrr-labels"></div>
+              </div>
             </div>
-            <!-- Abonnements expirant bientôt -->
-            <div style="background:#111a14;border:1px solid rgba(201,168,76,.2);border-radius:16px;padding:20px">
+
+            <!-- Expirent bientôt -->
+            <div class="dev-card" style="border-color:rgba(201,168,76,.25)">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
                 <div style="font-size:1rem">⚠️</div>
-                <div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:var(--gold)">Expirent dans les 7 jours</div>
+                <div class="dev-card-title" style="color:var(--gold)">Expirent dans les 7 jours</div>
               </div>
               <div id="dev-expiring-list"></div>
             </div>
           </div>
 
-          <!-- ── PANEL ABONNEMENTS ───────────────────────── -->
+          <!-- ── ABONNEMENTS ─── -->
           <div class="dev-panel" id="dev-p-subscriptions">
-            <div class="dev-filters">
-              <div class="dev-search"><span class="dev-search-icon">🔍</span>
-                <input placeholder="Rechercher restaurant…" oninput="devFilterSubs(this.value)"/></div>
-              <button class="dev-filter-chip active" onclick="devSetSubFilter('all',this)">Tous</button>
-              <button class="dev-filter-chip" onclick="devSetSubFilter('active',this)">Actifs</button>
-              <button class="dev-filter-chip" onclick="devSetSubFilter('trial',this)">Essai</button>
-              <button class="dev-filter-chip" onclick="devSetSubFilter('expired',this)">Expirés</button>
-              <button class="dev-filter-chip" onclick="devSetSubFilter('suspended',this)">Suspendus</button>
+            <!-- Stats rapides -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px" id="dev-sub-quick-stats"></div>
+
+            <!-- Filtres -->
+            <div class="dev-filters" style="margin-bottom:16px">
+              <div class="dev-search">
+                <span class="dev-search-icon">🔍</span>
+                <input placeholder="Rechercher restaurant, ville…" oninput="devFilterSubs(this.value)" id="dev-sub-search"/>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <button class="dev-filter-chip active" onclick="devSetSubFilter('all',this)">Tous</button>
+                <button class="dev-filter-chip" onclick="devSetSubFilter('active',this)">✅ Actifs</button>
+                <button class="dev-filter-chip" onclick="devSetSubFilter('trial',this)">🕐 Essai</button>
+                <button class="dev-filter-chip" onclick="devSetSubFilter('expired',this)">🔴 Expirés</button>
+                <button class="dev-filter-chip" onclick="devSetSubFilter('suspended',this)">⏸ Suspendus</button>
+                <button class="dev-filter-chip" onclick="devSetSubFilter('1m',this)">1 Mois</button>
+                <button class="dev-filter-chip" onclick="devSetSubFilter('3m',this)">Trim.</button>
+                <button class="dev-filter-chip" onclick="devSetSubFilter('1y',this)">Annuel</button>
+              </div>
             </div>
+
             <div class="dev-table-wrap">
               <table>
                 <thead><tr>
-                  <th>Restaurant</th><th>Plan</th><th>Statut</th>
-                  <th>Début</th><th>Expiration</th><th>Durée restante</th><th>Actions</th>
+                  <th>Restaurant</th>
+                  <th>Plan</th>
+                  <th>Durée</th>
+                  <th>Statut</th>
+                  <th>Début</th>
+                  <th>Expiration</th>
+                  <th>Restant</th>
+                  <th>Actions</th>
                 </tr></thead>
                 <tbody id="dev-subs-tbody"></tbody>
               </table>
             </div>
           </div>
 
-          <!-- ── PANEL RESTAURANTS ──────────────────────── -->
+          <!-- ── RESTAURANTS ─── -->
           <div class="dev-panel" id="dev-p-restaurants">
             <div class="dev-filters">
-              <div class="dev-search"><span class="dev-search-icon">🔍</span>
-                <input placeholder="Rechercher…" oninput="devFilterRestos(this.value)"/></div>
+              <div class="dev-search">
+                <span class="dev-search-icon">🔍</span>
+                <input placeholder="Rechercher…" oninput="devFilterRestos(this.value)"/>
+              </div>
             </div>
             <div class="dev-table-wrap">
               <table>
                 <thead><tr>
-                  <th>Nom</th><th>Ville</th><th>Plan</th><th>Commandes</th><th>WhatsApp</th><th>Inscrit</th><th>Actions</th>
+                  <th>Nom</th><th>Propriétaire</th><th>Ville</th><th>Plan</th><th>Commandes</th><th>WhatsApp</th><th>Inscrit</th><th>Actions</th>
                 </tr></thead>
                 <tbody id="dev-restos-tbody"></tbody>
               </table>
             </div>
           </div>
 
-          <!-- ── PANEL AUDIT ────────────────────────────── -->
+          <!-- ── AUDIT ─── -->
           <div class="dev-panel" id="dev-p-audit">
-            <div style="background:#111a14;border:1px solid rgba(26,107,60,.15);border-radius:16px;padding:24px">
-              <div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:white;margin-bottom:16px">📋 Journal des actions</div>
+            <div class="dev-card">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+                <div class="dev-card-title">📋 Journal des actions</div>
+                <button class="dev-btn dev-btn-outline" onclick="DEV_AUDIT=[];devRenderAudit();devToast('Journal effacé')">🗑 Vider</button>
+              </div>
               <div id="dev-audit-log"></div>
             </div>
           </div>
 
-          <!-- ── PANEL SETTINGS ─────────────────────────── -->
+          <!-- ── SETTINGS ─── -->
           <div class="dev-panel" id="dev-p-settings">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-              <div style="background:#111a14;border:1px solid rgba(26,107,60,.15);border-radius:16px;padding:24px">
-                <div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:white;margin-bottom:20px">💰 Tarifs abonnements</div>
-                <div class="dev-field"><label>Pro — Mensuel (FCFA)</label><input id="dev-price-pro-m" value="9900" type="number"/></div>
-                <div class="dev-field"><label>Pro — Trimestriel (FCFA)</label><input id="dev-price-pro-q" value="26500" type="number"/></div>
-                <div class="dev-field"><label>Pro — Annuel (FCFA)</label><input id="dev-price-pro-y" value="89000" type="number"/></div>
-                <button class="dev-btn dev-btn-green" onclick="devSavePrices()" style="margin-top:8px">💾 Enregistrer</button>
+              <div class="dev-card">
+                <div class="dev-card-title">💰 Tarifs abonnements (F CFA)</div>
+                <div style="margin-top:16px">
+                  <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3);margin:12px 0 8px">Plan Pro</div>
+                  <div class="dev-field"><label>Mensuel</label><input id="dev-price-pro-m" type="number" value="9900"/></div>
+                  <div class="dev-field"><label>Trimestriel</label><input id="dev-price-pro-q" type="number" value="26500"/></div>
+                  <div class="dev-field"><label>Annuel</label><input id="dev-price-pro-y" type="number" value="89000"/></div>
+                  <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3);margin:16px 0 8px">Plan Business</div>
+                  <div class="dev-field"><label>Mensuel</label><input id="dev-price-biz-m" type="number" value="24900"/></div>
+                  <div class="dev-field"><label>Trimestriel</label><input id="dev-price-biz-q" type="number" value="67000"/></div>
+                  <div class="dev-field"><label>Annuel</label><input id="dev-price-biz-y" type="number" value="220000"/></div>
+                </div>
+                <button class="dev-btn dev-btn-green" onclick="devSavePrices()" style="margin-top:12px;width:100%;justify-content:center">💾 Enregistrer les tarifs</button>
               </div>
-              <div style="background:#111a14;border:1px solid rgba(26,107,60,.15);border-radius:16px;padding:24px">
-                <div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:white;margin-bottom:20px">🔐 Sécurité</div>
-                <div class="dev-field"><label>Email développeur</label><input id="dev-set-email" type="email" value="dev@menuos.app"/></div>
-                <div class="dev-field"><label>Nouveau mot de passe</label><input id="dev-set-pwd" type="password" placeholder="Laisser vide pour conserver"/></div>
-                <button class="dev-btn dev-btn-gold" onclick="devSaveSecurity()" style="margin-top:8px">🔒 Mettre à jour</button>
-              </div>
-              <div style="background:#111a14;border:1px solid rgba(26,107,60,.15);border-radius:16px;padding:24px;grid-column:span 2">
-                <div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:white;margin-bottom:16px">🔑 Accès rapide</div>
-                <div style="display:flex;gap:12px;flex-wrap:wrap">
-                  <button class="dev-btn dev-btn-outline" onclick="goto('dashboard')">📊 Super Admin</button>
-                  <button class="dev-btn dev-btn-outline" onclick="goto('resto-admin')">🍽 Admin Restaurant</button>
-                  <button class="dev-btn dev-btn-outline" onclick="goto('landing')">🌐 Landing Page</button>
-                  <button class="dev-btn dev-btn-outline" onclick="goto('app')">📱 Menu Client</button>
+              <div style="display:flex;flex-direction:column;gap:16px">
+                <div class="dev-card">
+                  <div class="dev-card-title">🔐 Sécurité</div>
+                  <div style="margin-top:16px">
+                    <div class="dev-field"><label>Email développeur</label><input id="dev-set-email" type="email" value="dev@menuos.app"/></div>
+                    <div class="dev-field"><label>Nouveau mot de passe</label><input id="dev-set-pwd" type="password" placeholder="Laisser vide pour conserver"/></div>
+                  </div>
+                  <button class="dev-btn dev-btn-gold" onclick="devSaveSecurity()" style="margin-top:8px">🔒 Mettre à jour</button>
+                </div>
+                <div class="dev-card">
+                  <div class="dev-card-title">🔑 Accès rapide</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+                    <button class="dev-btn dev-btn-outline" onclick="goto('dashboard')">📊 Super Admin</button>
+                    <button class="dev-btn dev-btn-outline" onclick="goto('resto-admin')">🍽 Resto Admin</button>
+                    <button class="dev-btn dev-btn-outline" onclick="goto('landing')">🌐 Landing</button>
+                    <button class="dev-btn dev-btn-outline" onclick="goto('app')">📱 Menu</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -3014,7 +3226,7 @@ body.dark-mode .dark-toggle::after{transform:translateX(18px);}
     </div>
   </div>
 
-  <!-- ── MODAL ABONNEMENT (Activer / Prolonger / Suspendre) ── -->
+  <!-- ── MODAL ABONNEMENT ── -->
   <div class="dev-modal-overlay" id="devSubModal">
     <div class="dev-modal">
       <div class="dev-modal-header">
@@ -3022,12 +3234,10 @@ body.dark-mode .dark-toggle::after{transform:translateX(18px);}
         <button class="dev-modal-close" onclick="devCloseModal()">✕</button>
       </div>
       <div class="dev-modal-body">
-        <div id="devSubModalContent">
-          <!-- Rempli dynamiquement -->
-        </div>
-        <div style="display:flex;gap:10px;margin-top:20px">
-          <button class="dev-btn dev-btn-outline" onclick="devCloseModal()" style="flex:1;padding:12px;justify-content:center">Annuler</button>
-          <button class="dev-btn dev-btn-green" id="devSubModalConfirm" onclick="devConfirmSubAction()" style="flex:2;padding:12px;justify-content:center">Confirmer</button>
+        <div id="devSubModalContent"></div>
+        <div style="display:flex;gap:10px;margin-top:24px">
+          <button class="dev-btn dev-btn-outline" onclick="devCloseModal()" style="flex:1;padding:13px;justify-content:center">Annuler</button>
+          <button class="dev-btn dev-btn-green" id="devSubModalConfirm" onclick="devConfirmSubAction()" style="flex:2;padding:13px;justify-content:center">Confirmer</button>
         </div>
       </div>
     </div>
@@ -3132,8 +3342,15 @@ function raShowDash() {
   document.getElementById('ra-set-wa').value   = CONFIG.waNumber || '';
   document.getElementById('ra-set-name').value = CONFIG.restaurantName || '';
 
-  // Démarrer l'écoute des commandes
-  raListenOrders();
+  // Démarrer l'écoute des commandes (attendre Firebase si nécessaire)
+  if (window.FB?.ready) {
+    raListenOrders();
+  } else {
+    raListenOrders(); // mode démo immédiat
+    window.addEventListener('fb-ready', () => {
+      if (raLoggedIn) raListenOrders();
+    }, { once: true });
+  }
 
   // Afficher le panel par défaut
   raShowPanel('orders', document.querySelector('#view-resto-admin .ra-sb-link'));
@@ -3189,6 +3406,14 @@ function raListenOrders() {
   if (raOrdersUnsub) raOrdersUnsub();
   const conn = { dot: document.getElementById('ra-dot'), lbl: document.getElementById('ra-conn-lbl') };
 
+  // ── Résoudre le RESTAURANT_ID depuis localStorage si pas encore connu ──
+  if (!RESTAURANT_ID) {
+    try {
+      const stored = JSON.parse(localStorage.getItem('menuos_config') || '{}');
+      if (stored.uid)  RESTAURANT_ID = stored.uid;
+    } catch {}
+  }
+
   if (!window.FB?.ready) {
     // Mode démo : charger depuis localStorage
     raOrders = JSON.parse(localStorage.getItem('menuos_offline_orders') || '[]')
@@ -3199,13 +3424,18 @@ function raListenOrders() {
     return;
   }
 
-  const { onSnapshot, query, orderBy } = window.FB;
+  const { onSnapshot, query, orderBy, collection, db } = window.FB;
   if (conn.dot) conn.dot.style.background = '#ffd700';
   if (conn.lbl) conn.lbl.textContent = 'Connexion…';
 
+  // Collection orders du bon restaurant
+  const ordersRef = RESTAURANT_ID
+    ? collection(db, 'restaurants', RESTAURANT_ID, 'orders')
+    : collection(db, 'orders');
+
   try {
     raOrdersUnsub = onSnapshot(
-      query(ordersCol(), orderBy('createdAt', 'desc')),
+      query(ordersRef, orderBy('createdAt', 'desc')),
       snap => {
         const prev = raOrders.length;
         raOrders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -3213,7 +3443,6 @@ function raListenOrders() {
         if (conn.dot) conn.dot.style.background = '#2ECC71';
         if (conn.lbl) conn.lbl.textContent = 'En ligne';
 
-        // Notification sonore si nouvelle commande
         if (prev > 0 && raOrders.length > prev && raSoundOn) raPlaySound();
 
         raRenderOrders();
@@ -3512,19 +3741,72 @@ function raAddDish() {
 //  STATISTIQUES
 // ════════════════════════════════════════════════════════════════
 function raRenderStats() {
-  const today = new Date().toDateString();
+  const today     = new Date().toDateString();
   const todayOrders = raOrders.filter(o => {
     const d = o.createdAt?.toDate ? o.createdAt.toDate() : (o.ts ? new Date(o.ts) : null);
     return d && d.toDateString() === today;
   });
-  const totalCA    = raOrders.reduce((s, o) => s + (o.total || 0), 0);
-  const todayCA    = todayOrders.reduce((s, o) => s + (o.total || 0), 0);
-  const avg        = raOrders.length ? Math.round(totalCA / raOrders.length) : 0;
+  const totalCA  = raOrders.reduce((s, o) => s + (o.total || 0), 0);
+  const todayCA  = todayOrders.reduce((s, o) => s + (o.total || 0), 0);
+  const avg      = raOrders.length ? Math.round(totalCA / raOrders.length) : 0;
+
+  // Semaine précédente pour comparaison
+  const now7     = Date.now();
+  const thisWeek = raOrders.filter(o => {
+    const d = o.createdAt?.toDate ? o.createdAt.toDate() : (o.ts ? new Date(o.ts) : null);
+    return d && (now7 - d.getTime()) < 7 * 86400000;
+  });
+  const lastWeek = raOrders.filter(o => {
+    const d = o.createdAt?.toDate ? o.createdAt.toDate() : (o.ts ? new Date(o.ts) : null);
+    const age = d ? now7 - d.getTime() : Infinity;
+    return age >= 7 * 86400000 && age < 14 * 86400000;
+  });
+  const thisCA = thisWeek.reduce((s, o) => s + (o.total || 0), 0);
+  const lastCA = lastWeek.reduce((s, o) => s + (o.total || 0), 0);
+  const pct    = lastCA > 0 ? Math.round((thisCA - lastCA) / lastCA * 100) : 0;
+  const trend  = pct >= 0 ? `▲ +${pct}%` : `▼ ${pct}%`;
+  const trendColor = pct >= 0 ? '#2ECC71' : '#ff4757';
 
   document.getElementById('ra-st-today').textContent    = todayOrders.length;
   document.getElementById('ra-st-ca-today').textContent = todayCA.toLocaleString('fr-FR') + ' F';
   document.getElementById('ra-st-total').textContent    = raOrders.length;
   document.getElementById('ra-st-avg').textContent      = avg.toLocaleString('fr-FR') + ' F';
+
+  // F8 : Graphique 7 jours
+  const statsPanel = document.getElementById('ra-panel-stats');
+  if (statsPanel && !document.getElementById('ra-chart-7d')) {
+    const chartWrap = document.createElement('div');
+    chartWrap.id = 'ra-chart-7d';
+    chartWrap.style.cssText = 'background:white;border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px';
+    statsPanel.insertBefore(chartWrap, statsPanel.children[1]);
+  }
+  const chartEl = document.getElementById('ra-chart-7d');
+  if (chartEl) {
+    const days = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+    const dayData = Array(7).fill(0);
+    raOrders.forEach(o => {
+      const d = o.createdAt?.toDate ? o.createdAt.toDate() : (o.ts ? new Date(o.ts) : null);
+      if (!d) return;
+      const age = Math.floor((now7 - d.getTime()) / 86400000);
+      if (age < 7) dayData[6 - age] += (o.total || 0);
+    });
+    const maxD = Math.max(...dayData, 1);
+    const todayDow = (new Date().getDay() + 6) % 7;
+    chartEl.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--dark)">📈 CA — 7 derniers jours</div>
+        <div style="font-size:.78rem;font-weight:700;color:${trendColor}">${trend} vs sem. préc.</div>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:6px;height:80px">
+        ${dayData.map((v, i) => `
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div style="flex:1;width:100%;background:${i===todayDow?'var(--g)':'rgba(26,107,60,.2)'};border-radius:4px 4px 0 0;min-height:4px;height:${Math.round(v/maxD*72)+4}px" title="${v.toLocaleString('fr-FR')} F"></div>
+          </div>`).join('')}
+      </div>
+      <div style="display:flex;gap:6px;margin-top:6px">
+        ${days.map((d, i) => `<div style="flex:1;font-size:.58rem;text-align:center;color:${i===todayDow?'var(--g)':'var(--muted)'};font-weight:${i===todayDow?700:400}">${d}</div>`).join('')}
+      </div>`;
+  }
 
   // Top plats
   const counts = {};
@@ -3557,17 +3839,41 @@ function raRenderStats() {
 function raSaveSettings() {
   const wa   = document.getElementById('ra-set-wa').value.trim();
   const name = document.getElementById('ra-set-name').value.trim();
+  if (!wa && !name) { raToast('Aucune modification', 'err'); return; }
   if (wa)   CONFIG.waNumber       = wa.replace(/\D/g,'');
   if (name) CONFIG.restaurantName = name;
-  document.getElementById('ra-sb-resto-name').textContent = name || CONFIG.restaurantName;
-  document.getElementById('app-logo-text').textContent    = name || CONFIG.restaurantName;
-  document.getElementById('app-hero-title').textContent   = name || CONFIG.restaurantName;
-  if (window.FB?.ready && RESTAURANT_ID) {
-    const { doc, setDoc } = window.FB;
-    setDoc(doc(window.FB.db, 'restaurants', RESTAURANT_ID),
-      { whatsapp: wa, name }, { merge: true }).catch(() => {});
+  // Mettre à jour l'UI
+  if (name) {
+    const n = name || CONFIG.restaurantName;
+    const el1 = document.getElementById('ra-sb-resto-name');
+    const el2 = document.getElementById('app-logo-text');
+    const el3 = document.getElementById('app-hero-title');
+    if (el1) el1.textContent = n;
+    if (el2) el2.textContent = n;
+    if (el3) el3.textContent = n;
   }
-  raToast('✅ Paramètres enregistrés', 'g');
+  // Persister dans localStorage (fallback offline)
+  try {
+    const stored = JSON.parse(localStorage.getItem('menuos_config') || '{}');
+    if (wa)   stored.waNumber       = CONFIG.waNumber;
+    if (name) stored.restaurantName = name;
+    localStorage.setItem('menuos_config', JSON.stringify(stored));
+  } catch {}
+  // Sauvegarder dans Firestore si connecté
+  const rid = RESTAURANT_ID || (() => {
+    try { return JSON.parse(localStorage.getItem('menuos_config') || '{}').uid || null; } catch { return null; }
+  })();
+  if (window.FB?.ready && rid) {
+    const { doc, setDoc } = window.FB;
+    const data = {};
+    if (wa)   data.whatsapp = wa;
+    if (name) data.name     = name;
+    setDoc(doc(window.FB.db, 'restaurants', rid), data, { merge: true })
+      .then(() => raToast('✅ Paramètres enregistrés', 'g'))
+      .catch(() => raToast('✅ Enregistré localement', 'g'));
+  } else {
+    raToast('✅ Paramètres enregistrés', 'g');
+  }
 }
 
 function raSavePin() {
@@ -3577,7 +3883,16 @@ function raSavePin() {
     raToast('PIN invalide (4 chiffres requis)', 'err'); return;
   }
   if (p1 !== p2) { raToast('Les PINs ne correspondent pas', 'err'); return; }
+  if (p1 === '0000' || p1 === '1234' || p1 === '1111') {
+    raToast('PIN trop simple, choisissez-en un autre', 'err'); return;
+  }
   CONFIG.adminPin = p1;
+  // Persister dans localStorage
+  try {
+    const stored = JSON.parse(localStorage.getItem('menuos_config') || '{}');
+    stored.adminPin = p1;
+    localStorage.setItem('menuos_config', JSON.stringify(stored));
+  } catch {}
   document.getElementById('ra-set-pin').value  = '';
   document.getElementById('ra-set-pin2').value = '';
   raToast('✅ PIN modifié avec succès', 'g');
@@ -3996,28 +4311,6 @@ function getHoursHtml() {
 
 // ── 16. SUIVI DE COMMANDE ─────────────────────────────────────
 let currentOrderStatus = 1; // 1=reçue, 2=prépare, 3=prête, 4=livrée
-function showOrderTracker(orderId) {
-  document.getElementById('trackerOrderId').textContent = '#' + (orderId || Math.floor(Math.random()*9000+1000));
-  const modal = document.getElementById('orderTrackerModal');
-  modal.style.display = 'flex';
-  // Simulate progression
-  currentOrderStatus = 2;
-  updateTrackerUI();
-}
-function updateTrackerUI() {
-  for (let i = 1; i <= 4; i++) {
-    const el = document.getElementById('track-' + i);
-    if (!el) continue;
-    el.className = 'tracker-step' + (i < currentOrderStatus ? ' done' : i === currentOrderStatus ? ' active' : '');
-  }
-  const etas = {1:'~20 min', 2:'~15 min', 3:'~2 min', 4:'Livré !'};
-  const etaEl = document.getElementById('trackerETA');
-  if (etaEl) etaEl.textContent = etas[currentOrderStatus] || '~15 min';
-}
-function advanceOrderStatus() {
-  if (currentOrderStatus < 4) { currentOrderStatus++; updateTrackerUI(); }
-}
-
 // ── 17. MODE KIOSK ───────────────────────────────────────────
 let kioskMode = false;
 function toggleKioskMode() {
@@ -4143,6 +4436,32 @@ function sendWhatsApp() {
   setTimeout(() => showOrderTracker(orderNum), 1500);
   const waNum = CONFIG.waNumber?.replace(/\D/g,'') || '22600000000';
   window.open('https://wa.me/' + waNum + '?text=' + encodeURIComponent(msg), '_blank');
+  // Sauvegarder la commande
+  const orderData = {
+    table: tableLabel || (orderType.includes('Livraison') ? 'Livraison' : 'Sur place'),
+    items: cart.map(i => ({ nom: i.nom, qty: i.qty, prix: i.prix })),
+    total, note: note || '', statut: 'nouveau',
+    geolocation: clientGeoData || null,
+    paiement: payInfo,
+    promoCode: activePromo?.label || null,
+    remise: discount || 0,
+  };
+  if (window.FB?.ready) {
+    const { addDoc, serverTimestamp } = window.FB;
+    addDoc(ordersCol(), { ...orderData, createdAt: serverTimestamp() }).catch(() => {
+      const local = JSON.parse(localStorage.getItem('menuos_offline_orders') || '[]');
+      local.push({ ...orderData, ts: Date.now() });
+      localStorage.setItem('menuos_offline_orders', JSON.stringify(local));
+    });
+  } else {
+    const local = JSON.parse(localStorage.getItem('menuos_offline_orders') || '[]');
+    local.push({ ...orderData, ts: Date.now() });
+    localStorage.setItem('menuos_offline_orders', JSON.stringify(local));
+  }
+  // Reset promo
+  activePromo = null;
+  const successEl = document.getElementById('promoSuccess');
+  if (successEl) successEl.classList.remove('show');
   closeCart();
 }
 
@@ -4317,96 +4636,92 @@ const d = (offset) => { const x=new Date(now); x.setDate(x.getDate()+offset); re
 const fmt_date = (d) => d ? d.toLocaleDateString('fr-FR') : '—';
 
 let DEV_SUBSCRIPTIONS = [
-  { id:'s1', restoId:'r1', name:'Chez Mamadou', city:'Ouagadougou', plan:'pro', status:'active',
-    startDate: d(-45), endDate: d(15), whatsapp:'+22670001122', orders:142, duration:'1m' },
-  { id:'s2', restoId:'r2', name:'Le Baobab', city:'Bobo-Dioulasso', plan:'business', status:'active',
-    startDate: d(-80), endDate: d(10), whatsapp:'+22675223344', orders:89, duration:'3m' },
-  { id:'s3', restoId:'r3', name:'Saveur Africaine', city:'Ouagadougou', plan:'pro', status:'trial',
-    startDate: d(-5), endDate: d(9), whatsapp:'+22666778899', orders:12, duration:'14j' },
-  { id:'s4', restoId:'r4', name:'Restaurant La Paix', city:'Koudougou', plan:'pro', status:'expired',
-    startDate: d(-62), endDate: d(-2), whatsapp:'+22661001122', orders:58, duration:'2m' },
-  { id:'s5', restoId:'r5', name:'Brasserie du Sahel', city:'Ouagadougou', plan:'starter', status:'active',
-    startDate: d(-10), endDate: null, whatsapp:'+22670445566', orders:23, duration:'∞' },
-  { id:'s6', restoId:'r6', name:'Chez Fatou', city:'Ouagadougou', plan:'business', status:'suspended',
-    startDate: d(-90), endDate: d(-1), whatsapp:'+22676112233', orders:201, duration:'3m' },
-  { id:'s7', restoId:'r7', name:'Le Maquis Delice', city:'Banfora', plan:'pro', status:'active',
-    startDate: d(-20), endDate: d(40), whatsapp:'+22671334455', orders:34, duration:'2m' },
-  { id:'s8', restoId:'r8', name:'Hotel Azalaï', city:'Ouagadougou', plan:'business', status:'active',
-    startDate: d(-180), endDate: d(185), whatsapp:'+22670998877', orders:512, duration:'1y' },
+  { id:'s1', restoId:'r1', name:'Chez Mamadou',       owner:'Mamadou Traoré',    city:'Ouagadougou',   plan:'pro',      status:'active',    startDate: d(-45),  endDate: d(15),  whatsapp:'+22670001122', phone:'', orders:142, duration:'1m' },
+  { id:'s2', restoId:'r2', name:'Le Baobab',           owner:'Fatoumata Diallo',  city:'Bobo-Dioulasso',plan:'business', status:'active',    startDate: d(-80),  endDate: d(10),  whatsapp:'+22675223344', phone:'', orders:89,  duration:'3m' },
+  { id:'s3', restoId:'r3', name:'Saveur Africaine',    owner:'Ibrahim Sawadogo',  city:'Ouagadougou',   plan:'pro',      status:'trial',     startDate: d(-5),   endDate: d(9),   whatsapp:'+22666778899', phone:'', orders:12,  duration:'14j'},
+  { id:'s4', restoId:'r4', name:'Restaurant La Paix',  owner:'Mariam Coulibaly',  city:'Koudougou',     plan:'pro',      status:'expired',   startDate: d(-62),  endDate: d(-2),  whatsapp:'+22661001122', phone:'', orders:58,  duration:'1m' },
+  { id:'s5', restoId:'r5', name:'Brasserie du Sahel',  owner:'Seydou Ouédraogo', city:'Ouagadougou',   plan:'starter',  status:'active',    startDate: d(-10),  endDate: null,   whatsapp:'+22670445566', phone:'', orders:23,  duration:'∞'  },
+  { id:'s6', restoId:'r6', name:'Chez Fatou',          owner:'Fatou Sow',         city:'Ouagadougou',   plan:'business', status:'suspended', startDate: d(-90),  endDate: d(-1),  whatsapp:'+22676112233', phone:'', orders:201, duration:'3m' },
+  { id:'s7', restoId:'r7', name:'Le Maquis Delice',    owner:'Drissa Koné',       city:'Banfora',       plan:'pro',      status:'active',    startDate: d(-20),  endDate: d(40),  whatsapp:'+22671334455', phone:'', orders:34,  duration:'3m' },
+  { id:'s8', restoId:'r8', name:'Hotel Azalaï',        owner:'Aminata Traoré',    city:'Ouagadougou',   plan:'business', status:'active',    startDate: d(-180), endDate: d(185), whatsapp:'+22670998877', phone:'', orders:512, duration:'1y' },
 ];
 
-// ── Tarifs (modifiables dans settings) ──────────────────────
 let DEV_PRICES = {
-  pro:      { '1m': 9900,  '3m': 26500, '1y': 89000 },
+  pro:      { '1m': 9900,  '3m': 26500, '1y': 89000  },
   business: { '1m': 24900, '3m': 67000, '1y': 220000 },
-  starter:  { '1m': 0,     '3m': 0,     '1y': 0 },
+  starter:  { '1m': 0,     '3m': 0,     '1y': 0      },
 };
 
-// ── Audit log ────────────────────────────────────────────────
+const DUR_LABELS = { '1m':'1 mois', '3m':'3 mois (trimestre)', '1y':'12 mois (annuel)', '14j':'Essai 14j', '∞':'Illimité' };
+const DUR_DAYS   = { '1m': 30, '3m': 91, '1y': 365, '14j': 14 };
+
 let DEV_AUDIT = [
-  { type:'green', text:'<strong>Hôtel Azalaï</strong> — Abonnement Business 1 an activé', time:'il y a 2j' },
-  { type:'gold',  text:'<strong>Le Maquis Delice</strong> — Abonnement Pro 2 mois prolongé', time:'il y a 3j' },
-  { type:'red',   text:'<strong>Chez Fatou</strong> — Abonnement suspendu (paiement en attente)', time:'il y a 5j' },
-  { type:'blue',  text:'<strong>Saveur Africaine</strong> — Essai 14 jours démarré', time:'il y a 5j' },
-  { type:'green', text:'<strong>Le Baobab</strong> — Abonnement Business 3 mois activé', time:'il y a 1 sem.' },
+  { type:'green', text:'<strong>Hôtel Azalaï</strong> — Abonnement Business annuel activé',           time:'il y a 2j'    },
+  { type:'gold',  text:'<strong>Le Maquis Delice</strong> — Prolongé de 3 mois (trimestre)',           time:'il y a 3j'    },
+  { type:'red',   text:'<strong>Chez Fatou</strong> — Suspendu : paiement en attente',                time:'il y a 5j'    },
+  { type:'blue',  text:'<strong>Saveur Africaine</strong> — Essai 14 jours démarré',                   time:'il y a 5j'    },
+  { type:'green', text:'<strong>Le Baobab</strong> — Abonnement Business trimestriel activé',          time:'il y a 1 sem.'},
 ];
 
+let devCurrentAction    = null;
+let devSelectedDuration = '1m';
+let devSelectedPlan     = 'pro';
+let devSubFilter        = 'all';
+
+// ── Toast ────────────────────────────────────────────────────
 function devToast(msg, color) {
   const t = document.getElementById('devToast');
   if (!t) return;
   t.textContent = msg;
-  t.style.background = color === 'red' ? '#c0392b' : color === 'gold' ? '#7a6014' : '#0d1510';
+  t.style.background  = color === 'red' ? '#c0392b' : color === 'gold' ? '#7a6014' : '#0d1510';
+  t.style.borderColor = color === 'red' ? 'rgba(255,107,107,.3)' : color === 'gold' ? 'rgba(201,168,76,.3)' : 'rgba(26,107,60,.3)';
   t.style.opacity = '1';
   clearTimeout(t._t);
-  t._t = setTimeout(() => t.style.opacity = '0', 3000);
+  t._t = setTimeout(() => { t.style.opacity = '0'; }, 3200);
 }
-
 function devLogAudit(type, text) {
-  DEV_AUDIT.unshift({ type, text, time: 'à l\'instant' });
+  DEV_AUDIT.unshift({ type, text, time: "à l'instant" });
   devRenderAudit();
 }
 
 // ── Auth ─────────────────────────────────────────────────────
 function devAdminInit() {
-  const stored = sessionStorage.getItem('menuos-dev-auth');
-  if (stored === 'ok') {
-    devLoggedIn = true;
-    showDevPanel();
+  if (sessionStorage.getItem('menuos-dev-auth') === 'ok') {
+    devLoggedIn = true; showDevPanel();
   } else {
     document.getElementById('dev-login-screen').style.display = 'flex';
-    document.getElementById('dev-main-screen').style.display = 'none';
+    document.getElementById('dev-main-screen').style.display  = 'none';
   }
 }
-
 function devLogin() {
   const email = document.getElementById('dev-login-email')?.value?.trim();
   const pwd   = document.getElementById('dev-login-pwd')?.value;
   if (email === DEV_CREDENTIALS.email && pwd === DEV_CREDENTIALS.password) {
     devLoggedIn = true;
-    sessionStorage.setItem('menuos-dev-auth', 'ok');
+    sessionStorage.setItem('menuos-dev-auth','ok');
     showDevPanel();
   } else {
-    devToast('Identifiants incorrects', 'red');
-    document.getElementById('dev-login-pwd').value = '';
-    document.getElementById('dev-login-pwd').style.borderColor = '#ff6b6b';
-    setTimeout(() => { if(document.getElementById('dev-login-pwd')) document.getElementById('dev-login-pwd').style.borderColor = ''; }, 1500);
+    devToast('Identifiants incorrects','red');
+    const inp = document.getElementById('dev-login-pwd');
+    if (inp) { inp.value=''; inp.style.borderColor='#ff6b6b'; setTimeout(()=>inp.style.borderColor='',1500); }
   }
 }
-
 function devLogout() {
   devLoggedIn = false;
   sessionStorage.removeItem('menuos-dev-auth');
   document.getElementById('dev-login-screen').style.display = 'flex';
-  document.getElementById('dev-main-screen').style.display = 'none';
+  document.getElementById('dev-main-screen').style.display  = 'none';
   document.getElementById('dev-login-email').value = '';
-  document.getElementById('dev-login-pwd').value = '';
+  document.getElementById('dev-login-pwd').value   = '';
 }
-
 function showDevPanel() {
   document.getElementById('dev-login-screen').style.display = 'none';
-  document.getElementById('dev-main-screen').style.display = 'block';
-  const emailEl = document.getElementById('dev-logged-email');
-  if (emailEl) emailEl.textContent = DEV_CREDENTIALS.email;
+  document.getElementById('dev-main-screen').style.display  = 'block';
+  const el = document.getElementById('dev-logged-email');
+  if (el) el.textContent = DEV_CREDENTIALS.email;
+  devRenderAll();
+}
+function devRenderAll() {
   devRenderDashboard();
   devRenderSubscriptions();
   devRenderRestaurants();
@@ -4418,147 +4733,200 @@ function devShowPanel(name, btn) {
   document.querySelectorAll('.dev-panel').forEach(p => p.classList.remove('active'));
   const panel = document.getElementById('dev-p-' + name);
   if (panel) panel.classList.add('active');
-  // Sidebar links
-  document.querySelectorAll('.dev-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('#dev-main-screen .dev-link').forEach(l => l.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  // Mobile nav
-  document.querySelectorAll('.dev-mobile-nav-btn').forEach(b => b.classList.remove('active'));
-  // Update topbar titles
   const titles = {
-    dashboard:     ['Dashboard',       'Vue globale de la plateforme'],
-    subscriptions: ['Abonnements',     'Gérer, activer, suspendre, prolonger'],
-    restaurants:   ['Restaurants',     'Tous les établissements inscrits'],
-    audit:         ['Journal audit',   'Historique des actions administratives'],
-    settings:      ['Configuration',   'Tarifs, sécurité et accès'],
+    dashboard:     ['Dashboard',      'Vue globale de la plateforme'],
+    subscriptions: ['Abonnements',    'Activer · Suspendre · Prolonger · Changer plan'],
+    restaurants:   ['Restaurants',    'Tous les établissements inscrits'],
+    audit:         ['Journal audit',  'Historique complet des actions'],
+    settings:      ['Configuration',  'Tarifs, sécurité, accès rapide'],
   };
   const t = titles[name];
   if (t) {
     document.getElementById('dev-panel-title').textContent = t[0];
-    document.getElementById('dev-panel-sub').textContent = t[1];
+    document.getElementById('dev-panel-sub').textContent   = t[1];
   }
+  if (name === 'subscriptions') devRenderSubQuickStats();
 }
 
 // ── Dashboard ────────────────────────────────────────────────
 function devRenderDashboard() {
-  const active    = DEV_SUBSCRIPTIONS.filter(s => s.status === 'active').length;
-  const issues    = DEV_SUBSCRIPTIONS.filter(s => ['expired','suspended'].includes(s.status)).length;
-  const total     = DEV_SUBSCRIPTIONS.length;
-  const mrr       = DEV_SUBSCRIPTIONS.filter(s => s.status === 'active').reduce((sum, s) => {
-    return sum + (DEV_PRICES[s.plan]?.['1m'] || 0);
-  }, 0);
+  const active  = DEV_SUBSCRIPTIONS.filter(s => s.status === 'active').length;
+  const issues  = DEV_SUBSCRIPTIONS.filter(s => ['expired','suspended'].includes(s.status)).length;
+  const total   = DEV_SUBSCRIPTIONS.length;
+  const mrr     = DEV_SUBSCRIPTIONS.filter(s => s.status === 'active')
+    .reduce((sum, s) => sum + (DEV_PRICES[s.plan]?.['1m'] || 0), 0);
 
-  document.getElementById('dk-active').textContent    = active;
-  document.getElementById('dk-active-sub').textContent = active + '/' + total + ' restaurants actifs';
-  document.getElementById('dk-mrr').textContent       = mrr.toLocaleString('fr-FR') + ' F';
-  document.getElementById('dk-total').textContent     = total;
-  document.getElementById('dk-issues').textContent    = issues;
+  document.getElementById('dk-active').textContent     = active;
+  document.getElementById('dk-active-sub').textContent = active + '/' + total + ' actifs';
+  document.getElementById('dk-mrr').textContent        = mrr.toLocaleString('fr-FR') + ' F';
+  document.getElementById('dk-total').textContent      = total;
+  document.getElementById('dk-issues').textContent     = issues;
 
-  // MRR Chart
-  const months = ['Jan','Fév','Mar','Avr','Mai','Jun'];
-  const mrrVals = [42000, 58000, 71000, 89000, 102000, mrr];
-  const maxV = Math.max(...mrrVals);
-  const chart = document.getElementById('dev-mrr-chart');
-  const labels = document.getElementById('dev-mrr-labels');
-  if (chart) {
-    chart.innerHTML = mrrVals.map((v, i) =>
-      `<div style="flex:1;background:${i===5?'var(--g)':'rgba(26,107,60,.3)'};border-radius:4px 4px 0 0;height:${Math.round(v/maxV*100)}%;cursor:pointer;transition:all .2s" title="${months[i]}: ${v.toLocaleString('fr-FR')} F" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'"></div>`
-    ).join('');
+  // Répartition par durée
+  const durBreak = document.getElementById('dk-duration-breakdown');
+  if (durBreak) {
+    const counts = { '1m':0, '3m':0, '1y':0 };
+    DEV_SUBSCRIPTIONS.filter(s => s.status === 'active').forEach(s => { if (counts[s.duration] !== undefined) counts[s.duration]++; });
+    const tot2 = active || 1;
+    const rows = [
+      { key:'1m', label:'Mensuel',     color:'#51cf66' },
+      { key:'3m', label:'Trimestriel', color:'#C9A84C' },
+      { key:'1y', label:'Annuel',      color:'#74c0fc' },
+    ];
+    durBreak.innerHTML = rows.map(r => `
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px">
+          <span style="color:rgba(255,255,255,.55)">${r.label}</span>
+          <span style="color:${r.color};font-weight:700">${counts[r.key]} (${Math.round(counts[r.key]/tot2*100)}%)</span>
+        </div>
+        <div style="height:5px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden">
+          <div style="height:100%;width:${Math.round(counts[r.key]/tot2*100)}%;background:${r.color};border-radius:100px;transition:width .6s"></div>
+        </div>
+      </div>`).join('');
   }
-  if (labels) {
-    labels.innerHTML = months.map(m => `<div style="flex:1;font-size:.6rem;text-align:center;color:rgba(255,255,255,.25)">${m}</div>`).join('');
-  }
+
+  // MRR chart
+  const mrrVals = [42000,58000,71000,89000,102000,mrr];
+  const months  = ['Jan','Fév','Mar','Avr','Mai','Jui'];
+  const maxV    = Math.max(...mrrVals, 1);
+  const chart   = document.getElementById('dev-mrr-chart');
+  const lblEl   = document.getElementById('dev-mrr-labels');
+  if (chart) chart.innerHTML = mrrVals.map((v,i) =>
+    `<div style="flex:1;background:${i===5?'var(--g)':'rgba(26,107,60,.3)'};border-radius:4px 4px 0 0;height:${Math.round(v/maxV*100)}%" title="${months[i]}: ${v.toLocaleString('fr-FR')} F"></div>`
+  ).join('');
+  if (lblEl) lblEl.innerHTML = months.map(m =>
+    `<div style="flex:1;font-size:.6rem;text-align:center;color:rgba(255,255,255,.22)">${m}</div>`
+  ).join('');
 
   // Expiring soon
-  const expiringEl = document.getElementById('dev-expiring-list');
+  const expEl = document.getElementById('dev-expiring-list');
   const expiring = DEV_SUBSCRIPTIONS.filter(s => {
     if (!s.endDate || s.status !== 'active') return false;
-    const diff = (s.endDate - now) / (1000*60*60*24);
+    const diff = (s.endDate - now) / 86400000;
     return diff >= 0 && diff <= 7;
   });
-  if (expiringEl) {
+  if (expEl) {
     if (!expiring.length) {
-      expiringEl.innerHTML = '<div style="font-size:.84rem;color:rgba(255,255,255,.3);padding:8px 0">Aucun abonnement n\'expire dans les 7 prochains jours</div>';
+      expEl.innerHTML = '<div style="font-size:.84rem;color:rgba(255,255,255,.25);padding:8px 0">Aucun abonnement n\'expire dans les 7 jours ✅</div>';
     } else {
-      expiringEl.innerHTML = expiring.map(s => {
-        const diff = Math.ceil((s.endDate - now) / (1000*60*60*24));
-        return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(26,107,60,.08)">
-          <div>
-            <div style="font-size:.86rem;font-weight:700;color:white">${s.name}</div>
-            <div style="font-size:.72rem;color:rgba(255,255,255,.35)">${s.city} · Plan ${s.plan.toUpperCase()}</div>
+      expEl.innerHTML = expiring.map(s => {
+        const diff = Math.ceil((s.endDate - now) / 86400000);
+        return `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+          <div style="flex:1">
+            <div style="font-size:.84rem;font-weight:700;color:white">${s.name}</div>
+            <div style="font-size:.72rem;color:rgba(255,255,255,.35)">${s.city} · ${s.plan.toUpperCase()} · ${DUR_LABELS[s.duration]||s.duration}</div>
           </div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <span style="font-size:.78rem;font-weight:700;color:#ffa500">⏳ J-${diff}</span>
-            <button class="dev-btn dev-btn-gold" onclick="devShowRenewModal('${s.id}','${s.name}')">Prolonger</button>
-          </div>
+          <div style="font-size:.8rem;font-weight:700;color:${diff<=2?'#ff6b6b':'#ffa500'}">J-${diff}</div>
+          <button class="dev-btn dev-btn-gold" onclick="devShowRenewModal('${s.id}','${s.name}')">🔄 Prolonger</button>
         </div>`;
       }).join('');
     }
   }
 }
 
-// ── Abonnements ──────────────────────────────────────────────
+// ── Stats rapides abonnements ─────────────────────────────────
+function devRenderSubQuickStats() {
+  const el = document.getElementById('dev-sub-quick-stats');
+  if (!el) return;
+  const active    = DEV_SUBSCRIPTIONS.filter(s => s.status === 'active').length;
+  const trial     = DEV_SUBSCRIPTIONS.filter(s => s.status === 'trial').length;
+  const expired   = DEV_SUBSCRIPTIONS.filter(s => s.status === 'expired').length;
+  const suspended = DEV_SUBSCRIPTIONS.filter(s => s.status === 'suspended').length;
+  const c1m = DEV_SUBSCRIPTIONS.filter(s => s.duration==='1m' && s.status==='active').length;
+  const c3m = DEV_SUBSCRIPTIONS.filter(s => s.duration==='3m' && s.status==='active').length;
+  const c1y = DEV_SUBSCRIPTIONS.filter(s => s.duration==='1y' && s.status==='active').length;
+  const mrr = DEV_SUBSCRIPTIONS.filter(s => s.status==='active').reduce((sum,s)=>sum+(DEV_PRICES[s.plan]?.['1m']||0),0);
+
+  el.innerHTML = [
+    { label:'Actifs',    val:active,    color:'#51cf66', sub:'restaurants' },
+    { label:'Essai',     val:trial,     color:'#74c0fc', sub:'14 jours gratuits' },
+    { label:'Expirés',   val:expired,   color:'#ff6b6b', sub:'à renouveler' },
+    { label:'Suspendus', val:suspended, color:'#ffa94d', sub:'accès bloqué' },
+  ].map(k=>`
+    <div style="background:#111a14;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px">
+      <div style="font-size:.68rem;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">${k.label}</div>
+      <div style="font-size:1.8rem;font-weight:900;color:${k.color};font-family:'Fraunces',serif">${k.val}</div>
+      <div style="font-size:.68rem;color:rgba(255,255,255,.22);margin-top:2px">${k.sub}</div>
+    </div>`).join('') +
+  `<div style="background:#111a14;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px;grid-column:span 4;margin-top:4px">
+     <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center">
+       <div>
+         <div style="font-size:.68rem;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.06em">MRR estimé</div>
+         <div style="font-size:1.3rem;font-weight:900;color:var(--gold);font-family:'Fraunces',serif">${mrr.toLocaleString('fr-FR')} F CFA</div>
+       </div>
+       <div style="width:1px;height:36px;background:rgba(255,255,255,.07)"></div>
+       <div style="display:flex;gap:18px">
+         <div style="text-align:center">
+           <div style="font-size:1.1rem;font-weight:800;color:#51cf66">${c1m}</div>
+           <div style="font-size:.62rem;color:rgba(255,255,255,.28)">📅 Mensuel</div>
+         </div>
+         <div style="text-align:center">
+           <div style="font-size:1.1rem;font-weight:800;color:#C9A84C">${c3m}</div>
+           <div style="font-size:.62rem;color:rgba(255,255,255,.28)">🗓 Trimestriel</div>
+         </div>
+         <div style="text-align:center">
+           <div style="font-size:1.1rem;font-weight:800;color:#74c0fc">${c1y}</div>
+           <div style="font-size:.62rem;color:rgba(255,255,255,.28)">📆 Annuel</div>
+         </div>
+       </div>
+     </div>
+   </div>`;
+}
+
+// ── Tableau abonnements ───────────────────────────────────────
 function devGetDaysLeft(s) {
   if (!s.endDate) return null;
-  return Math.ceil((s.endDate - now) / (1000*60*60*24));
+  return Math.ceil((s.endDate - now) / 86400000);
 }
 
 function devRenderSubscriptions(filter, search) {
-  const f = filter || devSubFilter;
-  const q = (search || '').toLowerCase();
+  const f = filter !== undefined ? filter : devSubFilter;
+  const q = ((search !== undefined ? search : (document.getElementById('dev-sub-search')?.value||''))).toLowerCase();
   const tbody = document.getElementById('dev-subs-tbody');
   if (!tbody) return;
 
   let list = DEV_SUBSCRIPTIONS.filter(s => {
-    if (f !== 'all' && s.status !== f) return false;
-    if (q && !s.name.toLowerCase().includes(q) && !s.city.toLowerCase().includes(q)) return false;
-    return true;
-  });
+    if (f === 'all') return true;
+    if (['1m','3m','1y'].includes(f)) return s.duration === f && s.status === 'active';
+    return s.status === f;
+  }).filter(s => !q || s.name.toLowerCase().includes(q) || s.city.toLowerCase().includes(q) || (s.owner||'').toLowerCase().includes(q));
 
   if (!list.length) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:rgba(255,255,255,.2)">Aucun abonnement trouvé</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:rgba(255,255,255,.2)">Aucun abonnement trouvé</td></tr>';
     return;
   }
 
+  const SL = { active:'Actif', suspended:'Suspendu', expired:'Expiré', trial:'Essai' };
   tbody.innerHTML = list.map(s => {
-    const daysLeft = devGetDaysLeft(s);
-    const daysLeftHtml = s.endDate
-      ? (() => {
-          const d = daysLeft;
-          const pct = s.startDate ? Math.min(100, Math.max(0, 100 - (d / ((s.endDate - s.startDate)/(1000*60*60*24)))*100)) : 50;
-          const color = d < 0 ? '#ff6b6b' : d <= 7 ? '#ffa500' : '#51cf66';
-          return `<div>
-            <div style="font-size:.78rem;font-weight:700;color:${color}">${d < 0 ? 'Expiré il y a '+Math.abs(d)+'j' : 'J-'+d}</div>
-            <div class="expiry-bar"><div class="expiry-fill" style="width:${pct}%;background:${color}"></div></div>
-            <div style="font-size:.62rem;color:rgba(255,255,255,.25)">${fmt_date(s.endDate)}</div>
-          </div>`;
-        })()
-      : '<span style="font-size:.75rem;color:rgba(255,255,255,.3)">Illimité</span>';
-
+    const dl   = devGetDaysLeft(s);
+    const dc   = dl===null?'#51cf66':dl<0?'#ff6b6b':dl<=7?'#ffa500':'#51cf66';
+    const dlbl = dl===null?'∞':dl<0?`Exp. J+${Math.abs(dl)}`:`J-${dl}`;
+    const pct  = (s.startDate&&s.endDate) ? Math.min(100,Math.max(0,100-(dl/((s.endDate-s.startDate)/86400000))*100)) : 0;
+    const dk   = s.duration||'1m';
+    const dclr = dk==='1y'?'#74c0fc':dk==='3m'?'#C9A84C':'#51cf66';
     return `<tr>
       <td>
         <div style="font-weight:700;color:white">${s.name}</div>
-        <div style="font-size:.7rem;color:rgba(255,255,255,.3)">${s.city}</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.3)">${s.city}${s.owner?' · '+s.owner:''}</div>
       </td>
       <td><span class="plan-badge ${s.plan}">${s.plan.toUpperCase()}</span></td>
+      <td><span style="background:rgba(255,255,255,.05);border:1px solid ${dclr}44;color:${dclr};font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:100px">${DUR_LABELS[dk]||dk}</span></td>
+      <td><span class="status-badge ${s.status}"><span class="status-dot"></span>${SL[s.status]||s.status}</span></td>
+      <td style="font-size:.75rem;color:rgba(255,255,255,.32)">${fmt_date(s.startDate)}</td>
+      <td style="font-size:.75rem;color:rgba(255,255,255,.32)">${s.endDate?fmt_date(s.endDate):'∞'}</td>
       <td>
-        <span class="status-badge ${s.status}">
-          <span class="status-dot"></span>
-          ${{ active:'Actif', suspended:'Suspendu', expired:'Expiré', trial:'Essai' }[s.status]||s.status}
-        </span>
+        <div style="font-size:.78rem;font-weight:700;color:${dc}">${dlbl}</div>
+        ${s.endDate?`<div style="height:4px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden;width:80px;margin-top:4px"><div style="height:100%;width:${pct}%;background:${dc};border-radius:100px"></div></div>`:''}
       </td>
-      <td style="font-size:.78rem;color:rgba(255,255,255,.4)">${fmt_date(s.startDate)}</td>
-      <td style="font-size:.78rem;color:rgba(255,255,255,.4)">${s.endDate ? fmt_date(s.endDate) : '∞'}</td>
-      <td>${daysLeftHtml}</td>
       <td>
         <div style="display:flex;gap:4px;flex-wrap:wrap">
-          ${s.status !== 'active' && s.status !== 'trial'
-            ? `<button class="dev-btn dev-btn-green" onclick="devShowActivateModal('${s.id}','${s.name}')" title="Activer">✅ Activer</button>` : ''}
-          ${s.status === 'active' || s.status === 'trial'
-            ? `<button class="dev-btn dev-btn-gold" onclick="devShowRenewModal('${s.id}','${s.name}')" title="Prolonger">🔄 Prolonger</button>` : ''}
-          ${s.status === 'active'
-            ? `<button class="dev-btn dev-btn-red" onclick="devShowSuspendModal('${s.id}','${s.name}')" title="Suspendre">⏸ Suspendre</button>` : ''}
-          ${s.status === 'suspended'
-            ? `<button class="dev-btn dev-btn-green" onclick="devShowReactivateModal('${s.id}','${s.name}')" title="Réactiver">▶ Réactiver</button>` : ''}
+          ${s.status!=='active'&&s.status!=='trial'?`<button class="dev-btn dev-btn-green" onclick="devShowActivateModal('${s.id}','${s.name}')">✅ Activer</button>`:''}
+          ${s.status==='active'||s.status==='trial'?`<button class="dev-btn dev-btn-gold" onclick="devShowRenewModal('${s.id}','${s.name}')">🔄 Prolonger</button>`:''}
+          ${s.status==='expired'?`<button class="dev-btn dev-btn-gold" onclick="devShowRenewModal('${s.id}','${s.name}')">🔄 Renouveler</button>`:''}
+          ${s.status==='active'?`<button class="dev-btn dev-btn-red" onclick="devShowSuspendModal('${s.id}','${s.name}')" title="Suspendre">⏸</button>`:''}
+          ${s.status==='suspended'?`<button class="dev-btn dev-btn-green" onclick="devShowReactivateModal('${s.id}','${s.name}')">▶ Réactiver</button>`:''}
           <button class="dev-btn dev-btn-outline" onclick="devShowChangePlanModal('${s.id}','${s.name}')" title="Changer plan">✏️</button>
         </div>
       </td>
@@ -4566,319 +4934,295 @@ function devRenderSubscriptions(filter, search) {
   }).join('');
 }
 
-function devFilterSubs(q) { devRenderSubscriptions(devSubFilter, q); }
-function devSetSubFilter(f, btn) {
+function devFilterSubs(q)   { devRenderSubscriptions(devSubFilter, q); }
+function devSetSubFilter(f,btn) {
   devSubFilter = f;
-  document.querySelectorAll('.dev-filter-chip').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#dev-p-subscriptions .dev-filter-chip').forEach(b=>b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   devRenderSubscriptions();
+  devRenderSubQuickStats();
 }
 
-// ── Restaurants ──────────────────────────────────────────────
+// ── Restaurants ───────────────────────────────────────────────
 function devRenderRestaurants(q) {
   const tbody = document.getElementById('dev-restos-tbody');
   if (!tbody) return;
-  const search = (q || '').toLowerCase();
-  const list = DEV_SUBSCRIPTIONS.filter(s => !search || s.name.toLowerCase().includes(search) || s.city.toLowerCase().includes(search));
-  tbody.innerHTML = list.map(s => `
+  const search = (q||'').toLowerCase();
+  const list = DEV_SUBSCRIPTIONS.filter(s => !search || s.name.toLowerCase().includes(search) || s.city.toLowerCase().includes(search) || (s.owner||'').toLowerCase().includes(search));
+  tbody.innerHTML = list.map(s=>`
     <tr>
       <td style="font-weight:700;color:white">${s.name}</td>
-      <td style="font-size:.78rem;color:rgba(255,255,255,.4)">${s.city}</td>
+      <td style="font-size:.78rem;color:rgba(255,255,255,.42)">${s.owner||'—'}</td>
+      <td style="font-size:.75rem;color:rgba(255,255,255,.32)">${s.city}</td>
       <td><span class="plan-badge ${s.plan}">${s.plan.toUpperCase()}</span></td>
       <td style="font-size:.82rem;color:rgba(255,255,255,.6)">${s.orders}</td>
-      <td style="font-size:.78rem;color:rgba(255,255,255,.35)">${s.whatsapp}</td>
-      <td style="font-size:.75rem;color:rgba(255,255,255,.3)">${fmt_date(s.startDate)}</td>
-      <td>
-        <div style="display:flex;gap:4px">
-          <button class="dev-btn dev-btn-gold" onclick="devShowRenewModal('${s.id}','${s.name}')">Gérer</button>
-          <button class="dev-btn dev-btn-outline" onclick="goto('app')">👁</button>
-        </div>
-      </td>
+      <td style="font-size:.75rem;color:rgba(255,255,255,.28)">${s.whatsapp||'—'}</td>
+      <td style="font-size:.72rem;color:rgba(255,255,255,.22)">${fmt_date(s.startDate)}</td>
+      <td><div style="display:flex;gap:4px">
+        <button class="dev-btn dev-btn-gold" onclick="devShowRenewModal('${s.id}','${s.name}')">Gérer</button>
+        <button class="dev-btn dev-btn-outline" onclick="goto('app')">👁</button>
+      </div></td>
     </tr>`).join('');
 }
 function devFilterRestos(q) { devRenderRestaurants(q); }
 
-// ── Audit ────────────────────────────────────────────────────
+// ── Audit ──────────────────────────────────────────────────────
 function devRenderAudit() {
   const el = document.getElementById('dev-audit-log');
   if (!el) return;
-  el.innerHTML = DEV_AUDIT.slice(0, 20).map(a => `
+  el.innerHTML = DEV_AUDIT.slice(0,30).map(a=>`
     <div class="audit-entry">
       <div class="audit-dot ${a.type}"></div>
-      <div>
-        <div class="audit-text">${a.text}</div>
-        <div class="audit-time">${a.time}</div>
-      </div>
+      <div><div class="audit-text">${a.text}</div><div class="audit-time">${a.time}</div></div>
     </div>`).join('');
 }
 
-// ── Modals ───────────────────────────────────────────────────
+// ── Durée chips ────────────────────────────────────────────────
+function durationChipsHtml(plan) {
+  const p = DEV_PRICES[plan] || DEV_PRICES.pro;
+  return `<div class="duration-chips" id="dur-chips-wrap">
+    ${[
+      { key:'1m', label:'1 Mois',      icon:'📅', price:p['1m'], save:'',    days:30  },
+      { key:'3m', label:'Trimestriel', icon:'🗓',  price:p['3m'], save:'−10%',days:91  },
+      { key:'1y', label:'Annuel',      icon:'📆', price:p['1y'], save:'−25%',days:365 },
+    ].map(c=>`
+      <div class="duration-chip${c.key===devSelectedDuration?' active':''}" onclick="devSelectDuration('${c.key}','${plan}',this)">
+        <div style="font-size:1.2rem;margin-bottom:4px">${c.icon}</div>
+        <div class="duration-chip-label">${c.label}</div>
+        <div class="duration-chip-price">${c.price?c.price.toLocaleString('fr-FR')+' F':'Gratuit'}</div>
+        ${c.save?`<div class="duration-chip-save">${c.save}</div>`:''}
+        <div style="font-size:.6rem;color:rgba(255,255,255,.22);margin-top:2px">${c.days} jours</div>
+      </div>`).join('')}
+  </div>`;
+}
+function devSelectDuration(dur, plan, el) {
+  devSelectedDuration = dur;
+  document.querySelectorAll('.duration-chip').forEach(c=>c.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const p = DEV_PRICES[plan] || DEV_PRICES.pro;
+  const btn = document.getElementById('devSubModalConfirm');
+  if (btn) btn.textContent = `✅ Confirmer — ${DUR_LABELS[dur]} (${(p[dur]||0).toLocaleString('fr-FR')} F)`;
+}
+
+// ── Modals ─────────────────────────────────────────────────────
 function devOpenModal(title, content, confirmLabel, confirmClass) {
   document.getElementById('devSubModalTitle').textContent = title;
   document.getElementById('devSubModalContent').innerHTML = content;
   const btn = document.getElementById('devSubModalConfirm');
   btn.textContent = confirmLabel;
-  btn.className = 'dev-btn ' + (confirmClass || 'dev-btn-green');
-  btn.style.cssText = 'flex:2;padding:12px;justify-content:center;font-size:.88rem;';
+  btn.className   = 'dev-btn '+(confirmClass||'dev-btn-green');
+  btn.style.cssText = 'flex:2;padding:13px;justify-content:center';
   document.getElementById('devSubModal').classList.add('open');
 }
 function devCloseModal() {
   document.getElementById('devSubModal').classList.remove('open');
-  devCurrentAction = null;
-  devSelectedDuration = '1m';
+  devCurrentAction = null; devSelectedDuration = '1m';
 }
 
-// Durée chips HTML
-function durationChipsHtml(plan) {
-  const p = DEV_PRICES[plan] || DEV_PRICES.pro;
-  const chips = [
-    { key:'1m', label:'1 Mois',    price: p['1m'], save:'' },
-    { key:'3m', label:'Trimestre', price: p['3m'], save: p['3m'] ? '−10%' : '' },
-    { key:'1y', label:'1 Année',   price: p['1y'], save: p['1y'] ? '−25%' : '' },
-  ];
-  return `<div class="duration-chips">
-    ${chips.map(c => `
-      <div class="duration-chip${c.key === devSelectedDuration ? ' active' : ''}"
-           onclick="devSelectDuration('${c.key}', '${plan}', this)">
-        <div class="duration-chip-label">${c.label}</div>
-        <div class="duration-chip-price">${c.price ? c.price.toLocaleString('fr-FR') + ' F' : 'Gratuit'}</div>
-        ${c.save ? `<div class="duration-chip-save">${c.save}</div>` : ''}
-      </div>`).join('')}
+// ── Info box réutilisable ──────────────────────────────────────
+function devModalInfo(s, extra) {
+  return `<div style="background:rgba(26,107,60,.07);border:1px solid rgba(26,107,60,.18);border-radius:12px;padding:14px;margin-bottom:18px">
+    <div style="font-weight:700;color:white;margin-bottom:3px">${s.name}</div>
+    <div style="font-size:.76rem;color:rgba(255,255,255,.38)">${s.city}${s.owner?' · '+s.owner:''} · <span class="plan-badge ${s.plan}" style="font-size:.65rem">${s.plan.toUpperCase()}</span>${extra||''}</div>
   </div>`;
 }
 
-function devSelectDuration(dur, plan, el) {
-  devSelectedDuration = dur;
-  document.querySelectorAll('#devSubModalContent .duration-chip').forEach(c => c.classList.remove('active'));
-  if (el) el.classList.add('active');
-  // Update confirm button label
-  const p = DEV_PRICES[plan] || DEV_PRICES.pro;
-  const prices = { '1m': p['1m'], '3m': p['3m'], '1y': p['1y'] };
-  const labels = { '1m': '1 mois', '3m': '3 mois (trimestre)', '1y': '12 mois (année)' };
-  const btn = document.getElementById('devSubModalConfirm');
-  if (btn) btn.textContent = `✅ Confirmer — ${labels[dur]} (${(prices[dur]||0).toLocaleString('fr-FR')} F)`;
-}
-
-// Activer
+// ── ACTIVER ────────────────────────────────────────────────────
 function devShowActivateModal(id, name) {
-  const s = DEV_SUBSCRIPTIONS.find(x => x.id === id);
-  if (!s) return;
-  devCurrentAction = { type: 'activate', restoId: id, restoName: name };
-  devSelectedDuration = '1m';
-  devOpenModal(
-    '✅ Activer l\'abonnement',
-    `<div style="margin-bottom:16px">
-      <div style="font-size:.84rem;color:rgba(255,255,255,.6);margin-bottom:16px">
-        Activation de l'abonnement pour <strong style="color:white">${name}</strong>.<br>
-        Choisissez la durée et le plan.
-      </div>
-      <div class="dev-field"><label>Plan</label>
-        <select id="modal-plan-sel" onchange="devUpdateDurationChips(this.value)">
-          <option value="starter">Starter (Gratuit)</option>
-          <option value="pro" ${s.plan==='pro'?'selected':''}>Pro</option>
-          <option value="business" ${s.plan==='business'?'selected':''}>Business</option>
-        </select>
-      </div>
-      <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.35);margin-bottom:10px">Durée</div>
-      <div id="modal-duration-chips">${durationChipsHtml(s.plan)}</div>
-    </div>`,
-    '✅ Activer — 1 mois (9 900 F)',
-    'dev-btn-green'
-  );
+  const s = DEV_SUBSCRIPTIONS.find(x=>x.id===id); if (!s) return;
+  devCurrentAction={type:'activate',restoId:id,restoName:name};
+  devSelectedDuration='1m';
+  devOpenModal('✅ Activer l\'abonnement',
+    devModalInfo(s, ` · Statut : <span style="color:#ff6b6b;font-weight:700">${s.status}</span>`) +
+    `<div class="dev-field" style="margin-bottom:14px"><label>Plan</label>
+      <select id="modal-plan-sel" onchange="devSelectedPlan=this.value;document.getElementById('modal-duration-chips').innerHTML=durationChipsHtml(this.value)" style="background:#111a14;border:1px solid rgba(26,107,60,.2);color:white;padding:10px 14px;border-radius:10px;width:100%;outline:none;font-family:'DM Sans',sans-serif">
+        <option value="starter">Starter (Gratuit)</option>
+        <option value="pro" ${s.plan==='pro'?'selected':''}>Pro — 9 900 F/mois</option>
+        <option value="business" ${s.plan==='business'?'selected':''}>Business — 24 900 F/mois</option>
+      </select></div>
+    <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.28);margin-bottom:10px">Durée d'abonnement</div>
+    <div id="modal-duration-chips">${durationChipsHtml(s.plan)}</div>`,
+    `✅ Activer — 1 mois (${(DEV_PRICES[s.plan]?.['1m']||0).toLocaleString('fr-FR')} F)`,
+    'dev-btn-green');
 }
 
-function devUpdateDurationChips(plan) {
-  const el = document.getElementById('modal-duration-chips');
-  if (el) el.innerHTML = durationChipsHtml(plan);
-}
-
-// Prolonger
+// ── PROLONGER ─────────────────────────────────────────────────
 function devShowRenewModal(id, name) {
-  const s = DEV_SUBSCRIPTIONS.find(x => x.id === id);
-  if (!s) return;
-  devCurrentAction = { type: 'renew', restoId: id, restoName: name };
-  devSelectedDuration = '1m';
-  const daysLeft = s.endDate ? devGetDaysLeft(s) : null;
-  devOpenModal(
-    '🔄 Prolonger l\'abonnement',
-    `<div>
-      <div style="background:rgba(26,107,60,.1);border:1px solid rgba(26,107,60,.2);border-radius:12px;padding:14px;margin-bottom:16px">
-        <div style="font-size:.78rem;color:rgba(255,255,255,.4);margin-bottom:4px">Expiration actuelle</div>
-        <div style="font-size:.9rem;font-weight:700;color:${daysLeft !== null && daysLeft < 7 ? '#ffa500' : 'white'}">${s.endDate ? fmt_date(s.endDate) : 'Illimité'}${daysLeft !== null ? ` (J-${daysLeft})` : ''}</div>
-      </div>
-      <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.35);margin-bottom:10px">Ajouter une durée</div>
-      <div id="modal-duration-chips">${durationChipsHtml(s.plan)}</div>
-    </div>`,
-    '🔄 Prolonger de 1 mois',
-    'dev-btn-gold'
-  );
+  const s = DEV_SUBSCRIPTIONS.find(x=>x.id===id); if (!s) return;
+  devCurrentAction={type:'renew',restoId:id,restoName:name};
+  devSelectedDuration='1m';
+  const dl = s.endDate ? devGetDaysLeft(s) : null;
+  const ec = dl!==null&&dl<=7?'#ffa500':'rgba(255,255,255,.7)';
+  devOpenModal('🔄 Prolonger l\'abonnement',
+    devModalInfo(s) +
+    `<div style="background:rgba(26,107,60,.08);border:1px solid rgba(26,107,60,.18);border-radius:10px;padding:12px;margin-bottom:16px">
+      <div style="font-size:.72rem;color:rgba(255,255,255,.38);margin-bottom:3px">Expiration actuelle</div>
+      <div style="font-size:.88rem;font-weight:700;color:${ec}">${s.endDate?fmt_date(s.endDate)+(dl!==null?' (J-'+dl+')':''):'Illimité'}</div>
+    </div>
+    <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.28);margin-bottom:10px">Ajouter une durée à partir de l'expiration</div>
+    <div id="modal-duration-chips">${durationChipsHtml(s.plan)}</div>`,
+    '🔄 Prolonger de 1 mois', 'dev-btn-gold');
 }
 
-// Suspendre
+// ── SUSPENDRE ─────────────────────────────────────────────────
 function devShowSuspendModal(id, name) {
-  devCurrentAction = { type: 'suspend', restoId: id, restoName: name };
-  devOpenModal(
-    '⏸ Suspendre l\'abonnement',
-    `<div>
-      <div style="background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.2);border-radius:12px;padding:16px;margin-bottom:16px">
-        <div style="font-size:.88rem;color:#ff6b6b;font-weight:700;margin-bottom:6px">⚠️ Attention</div>
-        <div style="font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.6">
-          Suspendre <strong style="color:white">${name}</strong> désactivera immédiatement l'accès aux fonctionnalités premium.<br>
-          Le restaurant sera notifié et ses clients ne pourront plus passer commande.
-        </div>
-      </div>
-      <div class="dev-field"><label>Raison (optionnel)</label>
-        <input id="suspend-reason" placeholder="Ex : Paiement en attente" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,107,107,.2);color:white;font-family:'DM Sans',sans-serif;padding:10px 14px;border-radius:10px;width:100%;outline:none"/>
-      </div>
-    </div>`,
-    '⏸ Confirmer la suspension',
-    'dev-btn-red'
-  );
+  devCurrentAction={type:'suspend',restoId:id,restoName:name};
+  const s = DEV_SUBSCRIPTIONS.find(x=>x.id===id)||{};
+  devOpenModal('⏸ Suspendre l\'abonnement',
+    `<div style="background:rgba(255,107,107,.07);border:1px solid rgba(255,107,107,.2);border-radius:12px;padding:14px;margin-bottom:16px">
+      <div style="font-size:.88rem;color:#ff6b6b;font-weight:700;margin-bottom:5px">⚠️ Attention</div>
+      <div style="font-size:.8rem;color:rgba(255,255,255,.48);line-height:1.6">Suspendre <strong style="color:white">${name}</strong> bloquera immédiatement l'accès premium. Les clients ne pourront plus commander.</div>
+    </div>
+    <div class="dev-field"><label>Raison</label>
+      <select id="suspend-reason-sel" style="background:#111a14;border:1px solid rgba(255,107,107,.22);color:white;padding:10px 14px;border-radius:10px;width:100%;outline:none;font-family:'DM Sans',sans-serif">
+        <option>💳 Paiement en attente</option>
+        <option>⏰ Retard de paiement</option>
+        <option>🚫 Violation des CGU</option>
+        <option>📩 Demande du client</option>
+        <option>📝 Autre</option>
+      </select></div>
+    <div class="dev-field"><label>Note (optionnel)</label>
+      <input id="suspend-note" placeholder="Ex : Client contacté le 12/06" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,107,107,.18);color:white;font-family:'DM Sans',sans-serif;padding:10px 14px;border-radius:10px;width:100%;outline:none"/></div>`,
+    '⏸ Confirmer la suspension', 'dev-btn-red');
 }
 
-// Réactiver
+// ── RÉACTIVER ─────────────────────────────────────────────────
 function devShowReactivateModal(id, name) {
-  const s = DEV_SUBSCRIPTIONS.find(x => x.id === id);
-  if (!s) return;
-  devCurrentAction = { type: 'reactivate', restoId: id, restoName: name };
-  devSelectedDuration = '1m';
-  devOpenModal(
-    '▶ Réactiver l\'abonnement',
-    `<div>
-      <div style="font-size:.84rem;color:rgba(255,255,255,.6);margin-bottom:16px">
-        Réactivation de <strong style="color:white">${name}</strong>. Choisissez la nouvelle durée.
-      </div>
-      <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.35);margin-bottom:10px">Durée</div>
-      <div id="modal-duration-chips">${durationChipsHtml(s.plan)}</div>
-    </div>`,
-    '▶ Réactiver — 1 mois',
-    'dev-btn-green'
-  );
+  const s = DEV_SUBSCRIPTIONS.find(x=>x.id===id); if (!s) return;
+  devCurrentAction={type:'reactivate',restoId:id,restoName:name};
+  devSelectedDuration='1m';
+  devOpenModal('▶ Réactiver l\'abonnement',
+    devModalInfo(s) +
+    `<div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.28);margin:14px 0 10px">Nouvelle durée</div>
+    <div id="modal-duration-chips">${durationChipsHtml(s.plan)}</div>`,
+    '▶ Réactiver — 1 mois', 'dev-btn-green');
 }
 
-// Changer plan
+// ── CHANGER PLAN ──────────────────────────────────────────────
 function devShowChangePlanModal(id, name) {
-  const s = DEV_SUBSCRIPTIONS.find(x => x.id === id);
-  if (!s) return;
-  devCurrentAction = { type: 'change_plan', restoId: id, restoName: name };
-  devOpenModal(
-    '✏️ Changer le plan',
-    `<div>
-      <div class="dev-field">
-        <label>Nouveau plan</label>
-        <select id="modal-new-plan">
-          <option value="starter" ${s.plan==='starter'?'selected':''}>Starter (Gratuit)</option>
-          <option value="pro" ${s.plan==='pro'?'selected':''}>Pro — 9 900 F/mois</option>
-          <option value="business" ${s.plan==='business'?'selected':''}>Business — 24 900 F/mois</option>
-        </select>
-      </div>
+  const s = DEV_SUBSCRIPTIONS.find(x=>x.id===id); if (!s) return;
+  devCurrentAction={type:'change_plan',restoId:id,restoName:name};
+  devOpenModal('✏️ Changer le plan',
+    devModalInfo(s) +
+    `<div class="dev-field"><label>Nouveau plan</label>
+      <select id="modal-new-plan" style="background:#111a14;border:1px solid rgba(26,107,60,.2);color:white;padding:10px 14px;border-radius:10px;width:100%;outline:none;font-family:'DM Sans',sans-serif">
+        <option value="starter" ${s.plan==='starter'?'selected':''}>Starter — Gratuit</option>
+        <option value="pro"     ${s.plan==='pro'?'selected':''}>Pro — 9 900 F/mois</option>
+        <option value="business"${s.plan==='business'?'selected':''}>Business — 24 900 F/mois</option>
+      </select></div>
+    <div style="font-size:.76rem;color:rgba(255,255,255,.38);line-height:1.6;margin-top:10px;background:rgba(26,107,60,.05);border-radius:10px;padding:10px 12px">
+      Le changement prend effet immédiatement. La durée restante est conservée.
     </div>`,
-    '✏️ Changer le plan',
-    'dev-btn-gold'
-  );
+    '✏️ Confirmer', 'dev-btn-gold');
 }
 
-// Ajouter abonnement
+// ── AJOUTER ───────────────────────────────────────────────────
 function devShowAddSub() {
-  devCurrentAction = { type: 'add' };
-  devSelectedDuration = '1m';
-  devOpenModal(
-    '+ Nouvel abonnement',
-    `<div>
-      <div class="dev-field"><label>Nom du restaurant</label><input id="new-sub-name" placeholder="Chez Mamadou" style="background:rgba(255,255,255,.05);border:1px solid rgba(26,107,60,.2);color:white;font-family:'DM Sans',sans-serif;padding:10px 14px;border-radius:10px;width:100%;outline:none"/></div>
-      <div class="dev-field"><label>Ville</label><input id="new-sub-city" placeholder="Ouagadougou" style="background:rgba(255,255,255,.05);border:1px solid rgba(26,107,60,.2);color:white;font-family:'DM Sans',sans-serif;padding:10px 14px;border-radius:10px;width:100%;outline:none"/></div>
-      <div class="dev-field"><label>WhatsApp</label><input id="new-sub-wa" placeholder="+22670000000" style="background:rgba(255,255,255,.05);border:1px solid rgba(26,107,60,.2);color:white;font-family:'DM Sans',sans-serif;padding:10px 14px;border-radius:10px;width:100%;outline:none"/></div>
-      <div class="dev-field"><label>Plan</label>
-        <select id="new-sub-plan" onchange="devUpdateDurationChips(this.value)" style="background:#111a14;border:1px solid rgba(26,107,60,.2);color:white;font-family:'DM Sans',sans-serif;padding:10px 14px;border-radius:10px;width:100%;outline:none">
-          <option value="starter">Starter</option>
-          <option value="pro" selected>Pro</option>
-          <option value="business">Business</option>
-        </select>
-      </div>
-      <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.35);margin-bottom:10px">Durée</div>
-      <div id="modal-duration-chips">${durationChipsHtml('pro')}</div>
-    </div>`,
-    '✅ Créer l\'abonnement',
-    'dev-btn-green'
-  );
+  devCurrentAction={type:'add'}; devSelectedDuration='1m'; devSelectedPlan='pro';
+  devOpenModal('+ Nouvel abonnement',
+    `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      ${['new-sub-name:Nom du restaurant *:Chez Mamadou','new-sub-owner:Propriétaire:Mamadou Traoré',
+         'new-sub-city:Ville:Ouagadougou','new-sub-wa:WhatsApp:+22670000000'].map(f=>{
+        const [id,lbl,ph]=f.split(':');
+        return `<div class="dev-field" style="margin:0"><label>${lbl}</label>
+          <input id="${id}" placeholder="${ph}" style="background:rgba(255,255,255,.04);border:1px solid rgba(26,107,60,.2);color:white;padding:10px 14px;border-radius:10px;width:100%;outline:none;font-family:'DM Sans',sans-serif"/></div>`;
+      }).join('')}
+    </div>
+    <div class="dev-field" style="margin-bottom:14px"><label>Plan</label>
+      <select id="new-sub-plan" onchange="devSelectedPlan=this.value;document.getElementById('modal-duration-chips').innerHTML=durationChipsHtml(this.value)" style="background:#111a14;border:1px solid rgba(26,107,60,.2);color:white;padding:10px 14px;border-radius:10px;width:100%;outline:none;font-family:'DM Sans',sans-serif">
+        <option value="starter">Starter (Gratuit)</option>
+        <option value="pro" selected>Pro — 9 900 F/mois</option>
+        <option value="business">Business — 24 900 F/mois</option>
+      </select></div>
+    <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.28);margin-bottom:10px">Durée</div>
+    <div id="modal-duration-chips">${durationChipsHtml('pro')}</div>`,
+    "✅ Créer l'abonnement", 'dev-btn-green');
 }
 
-// ── Confirmer action ─────────────────────────────────────────
+// ── CONFIRMER ─────────────────────────────────────────────────
 function devConfirmSubAction() {
   if (!devCurrentAction) return;
   const { type, restoId, restoName } = devCurrentAction;
-  const sub = DEV_SUBSCRIPTIONS.find(s => s.id === restoId);
-
-  const durLabels = { '1m': '1 mois', '3m': '3 mois', '1y': '12 mois' };
-  const durDays   = { '1m': 30, '3m': 91, '1y': 365 };
-  const dur = devSelectedDuration;
+  const sub  = DEV_SUBSCRIPTIONS.find(s=>s.id===restoId);
+  const dur  = devSelectedDuration;
+  const days = DUR_DAYS[dur] || 30;
 
   if (type === 'activate' || type === 'reactivate') {
-    if (sub) {
-      const plan = document.getElementById('modal-plan-sel')?.value || sub.plan;
-      sub.status    = 'active';
-      sub.plan      = plan;
-      sub.startDate = new Date();
-      sub.endDate   = d(durDays[dur] || 30);
-      sub.duration  = dur;
-      devLogAudit('green', `<strong>${restoName}</strong> — Abonnement ${plan.toUpperCase()} ${durLabels[dur]} ${type === 'reactivate' ? 'réactivé' : 'activé'}`);
-      devToast(`✅ ${restoName} activé pour ${durLabels[dur]}`);
-    }
+    if (!sub) return;
+    const plan       = document.getElementById('modal-plan-sel')?.value || sub.plan;
+    sub.status       = 'active';
+    sub.plan         = plan;
+    sub.startDate    = new Date();
+    sub.endDate      = d(days);
+    sub.duration     = dur;
+    devLogAudit('green', `<strong>${restoName}</strong> — ${type==='reactivate'?'Réactivé':'Activé'} · ${plan.toUpperCase()} · ${DUR_LABELS[dur]}`);
+    devToast(`✅ ${restoName} — ${DUR_LABELS[dur]}`);
+
   } else if (type === 'renew') {
-    if (sub) {
-      const base = sub.endDate && sub.endDate > now ? sub.endDate : new Date();
-      const newEnd = new Date(base);
-      newEnd.setDate(newEnd.getDate() + (durDays[dur] || 30));
-      sub.endDate = newEnd;
-      sub.status  = 'active';
-      sub.duration = dur;
-      devLogAudit('gold', `<strong>${restoName}</strong> — Prolongé de ${durLabels[dur]}, expire le ${fmt_date(newEnd)}`);
-      devToast(`🔄 ${restoName} prolongé de ${durLabels[dur]}`);
-    }
+    if (!sub) return;
+    const base   = sub.endDate && sub.endDate > now ? sub.endDate : new Date();
+    const newEnd = new Date(base);
+    newEnd.setDate(newEnd.getDate() + days);
+    sub.endDate  = newEnd;
+    sub.status   = 'active';
+    sub.duration = dur;
+    devLogAudit('gold', `<strong>${restoName}</strong> — Prolongé · ${DUR_LABELS[dur]} · expire ${fmt_date(newEnd)}`);
+    devToast(`🔄 ${restoName} — +${DUR_LABELS[dur]}`);
+
   } else if (type === 'suspend') {
-    if (sub) {
-      const reason = document.getElementById('suspend-reason')?.value || '';
-      sub.status = 'suspended';
-      devLogAudit('red', `<strong>${restoName}</strong> — Suspendu${reason ? ' : ' + reason : ''}`);
-      devToast(`⏸ ${restoName} suspendu`, 'red');
-    }
+    if (!sub) return;
+    const reason = document.getElementById('suspend-reason-sel')?.value || '';
+    const note   = document.getElementById('suspend-note')?.value || '';
+    sub.status   = 'suspended';
+    devLogAudit('red', `<strong>${restoName}</strong> — Suspendu · ${reason}${note?' · '+note:''}`);
+    devToast(`⏸ ${restoName} suspendu`, 'red');
+
   } else if (type === 'change_plan') {
-    if (sub) {
-      const newPlan = document.getElementById('modal-new-plan')?.value || sub.plan;
-      const oldPlan = sub.plan;
-      sub.plan = newPlan;
-      devLogAudit('blue', `<strong>${restoName}</strong> — Plan changé : ${oldPlan.toUpperCase()} → ${newPlan.toUpperCase()}`);
-      devToast(`✏️ Plan mis à jour : ${newPlan.toUpperCase()}`);
-    }
+    if (!sub) return;
+    const newPlan = document.getElementById('modal-new-plan')?.value || sub.plan;
+    const oldPlan = sub.plan;
+    sub.plan = newPlan;
+    devLogAudit('blue', `<strong>${restoName}</strong> — ${oldPlan.toUpperCase()} → ${newPlan.toUpperCase()}`);
+    devToast(`✏️ Plan : ${newPlan.toUpperCase()}`, 'gold');
+
   } else if (type === 'add') {
-    const name  = document.getElementById('new-sub-name')?.value?.trim() || 'Nouveau restaurant';
-    const city  = document.getElementById('new-sub-city')?.value?.trim() || 'Ouagadougou';
-    const wa    = document.getElementById('new-sub-wa')?.value?.trim()   || '';
-    const plan  = document.getElementById('new-sub-plan')?.value || 'pro';
-    const newId = 's' + (Date.now());
-    DEV_SUBSCRIPTIONS.unshift({
-      id: newId, restoId: newId, name, city,
-      plan, status: 'active', whatsapp: wa,
-      startDate: new Date(), endDate: d(durDays[dur] || 30),
-      orders: 0, duration: dur,
-    });
-    devLogAudit('green', `<strong>${name}</strong> — Nouvel abonnement ${plan.toUpperCase()} ${durLabels[dur]} créé`);
-    devToast(`✅ ${name} ajouté — ${durLabels[dur]}`);
+    const name  = document.getElementById('new-sub-name')?.value?.trim()  || 'Nouveau restaurant';
+    const owner = document.getElementById('new-sub-owner')?.value?.trim() || '';
+    const city  = document.getElementById('new-sub-city')?.value?.trim()  || 'Ouagadougou';
+    const wa    = document.getElementById('new-sub-wa')?.value?.trim()    || '';
+    const plan  = document.getElementById('new-sub-plan')?.value          || 'pro';
+    const nid   = 's'+Date.now();
+    DEV_SUBSCRIPTIONS.unshift({ id:nid, restoId:nid, name, owner, city, whatsapp:wa, phone:'',
+      plan, status:'active', orders:0, startDate:new Date(), endDate:d(days), duration:dur });
+    devLogAudit('green', `<strong>${name}</strong> — Créé · ${plan.toUpperCase()} · ${DUR_LABELS[dur]}`);
+    devToast(`✅ ${name} — ${DUR_LABELS[dur]}`);
   }
 
   devCloseModal();
-  devRenderDashboard();
-  devRenderSubscriptions();
-  devRenderRestaurants();
+  devRenderAll();
+  devRenderSubQuickStats();
+
+  // Sync Firestore
+  if (window.FB?.ready && sub) {
+    const { db, doc, updateDoc } = window.FB;
+    updateDoc(doc(db, 'restaurants', sub.restoId), {
+      plan:sub.plan, status:sub.status,
+      subEnd:sub.endDate||null, subDuration:sub.duration||null
+    }).catch(()=>{});
+  }
 }
 
-// ── Settings ─────────────────────────────────────────────────
+// ── Settings ───────────────────────────────────────────────────
 function devSavePrices() {
-  const pm = v => parseInt(document.getElementById(v)?.value) || 0;
-  DEV_PRICES.pro['1m']      = pm('dev-price-pro-m');
-  DEV_PRICES.pro['3m']      = pm('dev-price-pro-q');
-  DEV_PRICES.pro['1y']      = pm('dev-price-pro-y');
-  devLogAudit('blue', '<strong>Tarifs mis à jour</strong> par le développeur');
+  const n = id => parseInt(document.getElementById(id)?.value)||0;
+  DEV_PRICES.pro['1m']      = n('dev-price-pro-m');
+  DEV_PRICES.pro['3m']      = n('dev-price-pro-q');
+  DEV_PRICES.pro['1y']      = n('dev-price-pro-y');
+  DEV_PRICES.business['1m'] = n('dev-price-biz-m');
+  DEV_PRICES.business['3m'] = n('dev-price-biz-q');
+  DEV_PRICES.business['1y'] = n('dev-price-biz-y');
+  try { localStorage.setItem('menuos_dev_prices', JSON.stringify(DEV_PRICES)); } catch {}
+  devLogAudit('blue','<strong>Tarifs mis à jour</strong> par le développeur');
   devToast('💾 Tarifs enregistrés');
 }
 function devSaveSecurity() {
@@ -4886,15 +5230,19 @@ function devSaveSecurity() {
   const pwd   = document.getElementById('dev-set-pwd')?.value;
   if (email) DEV_CREDENTIALS.email = email;
   if (pwd && pwd.length >= 6) DEV_CREDENTIALS.password = pwd;
-  devLogAudit('blue', '<strong>Sécurité mise à jour</strong> : identifiants développeur modifiés');
+  devLogAudit('blue','<strong>Sécurité mise à jour</strong>');
   devToast('🔒 Sécurité mise à jour');
 }
 function devRefresh() {
-  devRenderDashboard();
-  devRenderSubscriptions();
-  devRenderRestaurants();
+  devRenderAll(); devRenderSubQuickStats();
   devToast('🔄 Données actualisées');
 }
+
+// Charger tarifs sauvegardés
+try {
+  const saved = JSON.parse(localStorage.getItem('menuos_dev_prices')||'null');
+  if (saved) Object.assign(DEV_PRICES, saved);
+} catch {}
 </script>
 
 <script>
@@ -4926,7 +5274,10 @@ function detectInitialView() {
   const hash = window.location.hash.slice(1);
   if (VIEWS.includes(hash)) return hash;
   const params = new URLSearchParams(window.location.search);
-  if (params.get('slug') || window.location.pathname.split('/').filter(Boolean)[0]) return 'app';
+  // Slug en query string ou en path
+  const slugQ    = params.get('slug');
+  const pathPart = window.location.pathname.split('/').filter(Boolean)[0];
+  if (slugQ || (pathPart && !VIEWS.includes(pathPart))) return 'app';
   return 'landing';
 }
 
@@ -4945,120 +5296,151 @@ function gToast(msg, type = 'ok') {
 //  VUE 2 : ONBOARDING
 // ════════════════════════════════════════════════════════════════
 let obCurrentStep = 1;
-let obSelectedPlan = 'starter';
-let obSlugTimer;
+// ════════════════════════════════════════════════════════════════
+//  ONBOARDING — Formulaire simplifié (une seule étape)
+// ════════════════════════════════════════════════════════════════
 
-function obStep(n) {
-  if (n > obCurrentStep && !obValidate(obCurrentStep)) return;
-  document.getElementById('ob-step' + obCurrentStep).style.display = 'none';
-  const next = document.getElementById('ob-step' + n);
-  if (next) next.style.display = 'block';
-  for (let i = 1; i <= 3; i++) {
-    const el = document.getElementById('ob-nav-' + i);
-    el.className = 'ob-step-item' + (i === n ? ' active' : i < n ? ' done' : '');
-    el.querySelector('.ob-step-dot').textContent = i < n ? '✓' : i;
-  }
-  document.getElementById('ob-progress').style.width = (n / 3 * 100) + '%';
-  obCurrentStep = n;
+function obV(id) { return document.getElementById(id)?.value?.trim() || ''; }
+
+function obErr(id, show) {
+  const el  = document.getElementById('ob-err-' + id);
+  const inp = document.getElementById('ob-' + id);
+  if (el)  el.style.display = show ? 'block' : 'none';
+  if (inp) inp.classList.toggle('err', show);
 }
 
-function obValidate(step) {
+function obAutoSlug() {
+  // Juste pour générer le slug silencieusement (utilisé dans obCreate)
+}
+
+function obValidate() {
   let ok = true;
-  if (step === 1) {
-    const name = obV('ob-name');
-    if (!name) { obErr('name', true); ok = false; }
-    if (!obV('ob-city') || !obV('ob-wa')) ok = false;
-  }
-  if (step === 2) {
-    const email = obV('ob-email'), pwd = obV('ob-pwd'), pwd2 = obV('ob-pwd2');
-    if (!email.includes('@')) { obErr('email', true); ok = false; }
-    if (pwd.length < 8)       { obErr('pwd', true); ok = false; }
-    if (pwd !== pwd2)          { obErr('pwd2', true); ok = false; }
-  }
+  const name  = obV('ob-name');
+  const owner = obV('ob-owner');
+  const wa    = obV('ob-wa');
+  const addr  = obV('ob-addr');
+  const pin   = obV('ob-pin');
+  const pin2  = obV('ob-pin2');
+
+  obErr('name',  !name);  if (!name)  ok = false;
+  obErr('owner', !owner); if (!owner) ok = false;
+  obErr('wa',    !wa);    if (!wa)    ok = false;
+  obErr('addr',  !addr);  if (!addr)  ok = false;
+
+  const pinBad = !pin || pin.length !== 4 || !/^\d{4}$/.test(pin) ||
+    ['0000','1111','1234','2222','3333','4444'].includes(pin);
+  obErr('pin', pinBad);
+  if (pinBad) ok = false;
+
+  const pin2Bad = pin !== pin2;
+  obErr('pin2', pin2Bad);
+  if (pin2Bad) ok = false;
+
   return ok;
 }
 
-function obV(id) { return document.getElementById(id)?.value?.trim() || ''; }
-function obErr(id, show) {
-  const el = document.getElementById('ob-err-' + id);
-  const inp = document.getElementById('ob-' + id);
-  if (el)  el.style.display = show ? 'block' : 'none';
-  if (inp) inp.className = show ? 'err' : '';
-}
-
-function obSelectPlan(plan, el) {
-  obSelectedPlan = plan;
-  document.querySelectorAll('.ob-plan-card').forEach(c => c.classList.remove('sel'));
-  el.classList.add('sel');
-}
-
-// Slug auto
-document.getElementById('ob-name').addEventListener('input', e => {
-  waitFB(() => {
-    const slug = window.FB.makeSlug(e.target.value);
-    document.getElementById('ob-slug').value = slug;
-    obCheckSlug(slug);
-  });
-});
-document.getElementById('ob-slug').addEventListener('input', e => {
-  clearTimeout(obSlugTimer);
-  obSlugTimer = setTimeout(() => obCheckSlug(e.target.value), 500);
-});
-
-async function obCheckSlug(slug) {
-  const st = document.getElementById('ob-slug-st');
-  if (!slug || slug.length < 3) { st.textContent = '–'; return; }
-  if (!/^[a-z0-9][a-z0-9-]{1,30}[a-z0-9]$/.test(slug)) {
-    st.textContent = '⚠️'; return;
-  }
-  st.textContent = '⏳';
-  try {
-    const ok = await (window.FB?.slugAvailable?.(slug) ?? Promise.resolve(true));
-    st.textContent = ok ? '✅' : '❌';
-    obErr('slug', !ok);
-  } catch { st.textContent = '–'; }
-}
-
 async function obCreate() {
+  if (!obValidate()) return;
+
   const btn = document.getElementById('ob-btn-create');
-  btn.disabled = true; btn.textContent = 'Création en cours…';
-  if (!window.FB?.ready) {
-    // Mode démo : simulation locale sans Firebase
-    document.getElementById('ob-step3').style.display = 'none';
-    document.getElementById('ob-success').style.display = 'block';
-    document.getElementById('ob-success-url').textContent = 'menuos.app/' + (window.FB.makeSlug(obV('ob-name')) || 'mon-restaurant');
-    document.getElementById('ob-progress').style.width = '100%';
-    btn.disabled = false; btn.textContent = 'Créer mon restaurant →';
-    return;
-  }
+  btn.disabled = true;
+  btn.textContent = '⏳ Création en cours…';
+  btn.style.opacity = '0.7';
+
+  const name  = obV('ob-name');
+  const owner = obV('ob-owner');
+  const wa    = obV('ob-wa').replace(/\D/g, '');
+  const phone = obV('ob-phone').replace(/\D/g, '');
+  const addr  = obV('ob-addr');
+  const pin   = obV('ob-pin');
+
+  // Générer slug depuis le nom
+  const slug = window.FB?.makeSlug
+    ? window.FB.makeSlug(name)
+    : name.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+        .replace(/[^a-z0-9 -]/gi,'').trim().replace(/\s+/g,'-').toLowerCase().slice(0,32);
+
+  // Sauvegarder CONFIG localement immédiatement
+  CONFIG.restaurantName = name;
+  CONFIG.waNumber       = wa;
+  CONFIG.restaurantAddr = addr;
+  CONFIG.adminPin       = pin;
   try {
-    const { db, auth, createUserWithEmailAndPassword, setDoc, doc, serverTimestamp } = window.FB;
-    const email = obV('ob-email'), password = obV('ob-pwd');
-    const cred  = await createUserWithEmailAndPassword(auth, email, password);
-    const uid   = cred.user.uid;
-    let slug = obV('ob-slug') || window.FB.makeSlug(obV('ob-name'));
-    const ok = await window.FB.slugAvailable(slug);
-    if (!ok) slug = slug + '-' + Math.random().toString(36).slice(2, 6);
-    await setDoc(doc(db, 'restaurants', uid), {
-      uid, slug, name: obV('ob-name'), city: obV('ob-city'),
-      address: obV('ob-addr'), whatsapp: obV('ob-wa'),
-      plan: obSelectedPlan, active: true,
-      orderCount: 0, menuCount: 0,
-      theme: { primary: '#1A6B3C', gold: '#C9A84C' },
-      createdAt: serverTimestamp()
-    });
-    await setDoc(doc(db, 'slugs', slug), { uid, name: obV('ob-name'), active: true, createdAt: serverTimestamp() });
-    await setDoc(doc(db, 'admins', uid), { uid, email, restaurantId: uid, role: 'owner', createdAt: serverTimestamp() });
-    document.getElementById('ob-step3').style.display = 'none';
-    document.getElementById('ob-success').style.display = 'block';
-    document.getElementById('ob-success-url').textContent = 'menuos.app/' + slug;
-    document.getElementById('ob-progress').style.width = '100%';
-  } catch (err) {
-    let msg = 'Erreur lors de la création.';
-    if (err.code === 'auth/email-already-in-use') msg = 'Cet email est déjà utilisé.';
-    gToast(msg, 'err');
-    btn.disabled = false; btn.textContent = 'Créer mon restaurant →';
+    const stored = JSON.parse(localStorage.getItem('menuos_config') || '{}');
+    Object.assign(stored, { restaurantName: name, waNumber: wa, restaurantAddr: addr, adminPin: pin, owner, phone, slug });
+    localStorage.setItem('menuos_config', JSON.stringify(stored));
+  } catch {}
+
+  // Mettre à jour l'UI de l'app
+  ['app-logo-text','app-hero-title'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = name;
+  });
+
+  const progressEl = document.getElementById('ob-progress');
+  if (progressEl) progressEl.style.width = '60%';
+
+  // Tentative Firebase si disponible
+  if (window.FB?.ready) {
+    try {
+      const { db, setDoc, doc, serverTimestamp } = window.FB;
+      // Vérifier unicité du slug
+      let finalSlug = slug;
+      const available = await window.FB.slugAvailable(slug).catch(() => true);
+      if (!available) finalSlug = slug + '-' + Math.random().toString(36).slice(2,5);
+
+      const uid = 'local-' + Date.now(); // ID local (sans email/auth)
+      await setDoc(doc(db, 'restaurants', uid), {
+        uid, slug: finalSlug, name, owner,
+        whatsapp: wa, phone, address: addr,
+        adminPin: pin, plan: 'starter', active: true,
+        orderCount: 0, menuCount: 0,
+        theme: { primary: '#1A6B3C', gold: '#C9A84C' },
+        createdAt: serverTimestamp()
+      });
+      await setDoc(doc(db, 'slugs', finalSlug), { uid, name, active: true, createdAt: serverTimestamp() });
+
+      // ── Sauvegarder uid + slug → ordersCol() pointera ce restaurant ──
+      try {
+        const _s = JSON.parse(localStorage.getItem('menuos_config') || '{}');
+        _s.uid  = uid;
+        _s.slug = finalSlug;
+        localStorage.setItem('menuos_config', JSON.stringify(_s));
+      } catch {}
+      RESTAURANT_ID = uid;
+
+      if (progressEl) progressEl.style.width = '100%';
+      obShowSuccess('menuos.app/' + finalSlug);
+    } catch (err) {
+      // Firestore échoue → mode démo local OK
+      if (progressEl) progressEl.style.width = '100%';
+      obShowSuccess('menuos.app/' + slug);
+    }
+  } else {
+    // Mode démo sans Firebase — générer un uid local
+    const demoUid = 'demo-' + Date.now();
+    try {
+      const _s = JSON.parse(localStorage.getItem('menuos_config') || '{}');
+      _s.uid  = demoUid;
+      _s.slug = slug;
+      localStorage.setItem('menuos_config', JSON.stringify(_s));
+    } catch {}
+    RESTAURANT_ID = demoUid;
+    await new Promise(r => setTimeout(r, 700));
+    if (progressEl) progressEl.style.width = '100%';
+    obShowSuccess('menuos.app/' + slug);
   }
+
+  btn.disabled = false;
+  btn.textContent = 'Créer mon restaurant →';
+  btn.style.opacity = '1';
+}
+
+function obShowSuccess(url) {
+  document.getElementById('ob-step1').style.display  = 'none';
+  const suc = document.getElementById('ob-success');
+  suc.style.display = 'block';
+  document.getElementById('ob-success-url').textContent = url;
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -5200,8 +5582,15 @@ const CONFIG = {
   waNumber:      '22654470091',
   restaurantName:'Integral Restaurant Bar & Café',
   restaurantAddr:'Cissin, Ouagadougou, Burkina Faso',
-  adminPin:      '2030'   // ← Changez ce PIN ici
+  adminPin:      '2030'   // ← Changez via Paramètres admin
 };
+// Restaurer les valeurs persistées (PIN, nom, WhatsApp)
+try {
+  const _stored = JSON.parse(localStorage.getItem('menuos_config') || '{}');
+  if (_stored.adminPin)      CONFIG.adminPin      = _stored.adminPin;
+  if (_stored.waNumber)      CONFIG.waNumber      = _stored.waNumber;
+  if (_stored.restaurantName) CONFIG.restaurantName = _stored.restaurantName;
+} catch {}
 
 // Menu statique (données par défaut, peut être overridé par Firestore)
 const MENU = [
@@ -5355,63 +5744,109 @@ if (salonName) tableLabel = 'Salon ' + salonName;
 
 async function initAppView() {
   if (appInited) return;
-  // S'assurer que le DOM de l'app est disponible
   if (!document.getElementById('app-loader')) {
     setTimeout(initAppView, 100);
     return;
   }
   appInited = true;
 
-  // Attendre Firebase
+  // ── Charger CONFIG depuis localStorage (restaurant créé via onboarding) ──
+  try {
+    const stored = JSON.parse(localStorage.getItem('menuos_config') || '{}');
+    if (stored.restaurantName) CONFIG.restaurantName = stored.restaurantName;
+    if (stored.waNumber)       CONFIG.waNumber       = stored.waNumber;
+    if (stored.restaurantAddr) CONFIG.restaurantAddr = stored.restaurantAddr;
+    if (stored.adminPin)       CONFIG.adminPin       = stored.adminPin;
+    if (stored.slug)           CONFIG._localSlug     = stored.slug;
+    if (stored.uid)            RESTAURANT_ID         = stored.uid;
+    // Mettre à jour l'UI immédiatement
+    const n = CONFIG.restaurantName;
+    ['app-logo-text','app-hero-title'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && n) el.textContent = n;
+    });
+  } catch {}
+
+  // ── Attendre Firebase ──
   await waitFBPromise();
 
-  // Résolution du tenant si slug passé
+  // ── Résolution par slug URL (prioritaire sur localStorage) ──
   if (slugParam) {
     const resto = await window.FB.resolveSlug(slugParam);
     if (resto) {
-      RESTAURANT_ID = resto.id;
-      CONFIG.waNumber      = (resto.whatsapp || CONFIG.waNumber).replace(/\D/g, '');
+      RESTAURANT_ID         = resto.id;
+      CONFIG.waNumber       = (resto.whatsapp || CONFIG.waNumber).replace(/\D/g, '');
       CONFIG.restaurantName = resto.name || CONFIG.restaurantName;
       CONFIG.restaurantAddr = [resto.city, 'Burkina Faso'].filter(Boolean).join(', ');
-      document.getElementById('app-logo-text').textContent = resto.name || CONFIG.restaurantName;
-      document.getElementById('app-hero-title').textContent = resto.name || CONFIG.restaurantName;
+      ['app-logo-text','app-hero-title'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = CONFIG.restaurantName;
+      });
       if (resto.theme?.primary) document.documentElement.style.setProperty('--g', resto.theme.primary);
     }
+  }
+  // ── Résolution par slug localStorage si pas d'ID encore ──
+  else if (!RESTAURANT_ID && CONFIG._localSlug) {
+    try {
+      const resto = await window.FB.resolveSlug(CONFIG._localSlug);
+      if (resto) {
+        RESTAURANT_ID         = resto.id;
+        CONFIG.waNumber       = (resto.whatsapp || CONFIG.waNumber).replace(/\D/g, '');
+        CONFIG.restaurantName = resto.name || CONFIG.restaurantName;
+        // Persister l'uid résolu
+        const stored = JSON.parse(localStorage.getItem('menuos_config') || '{}');
+        stored.uid = RESTAURANT_ID;
+        localStorage.setItem('menuos_config', JSON.stringify(stored));
+      }
+    } catch {}
   }
 
   if (tableLabel) {
     const b = document.getElementById('tableBanner');
-    b.textContent = 'Vous êtes : ' + tableLabel + ' — Bienvenue !';
-    b.classList.add('show');
-    document.getElementById('cartTableTag').textContent = tableLabel;
+    if (b) { b.textContent = 'Vous êtes : ' + tableLabel + ' — Bienvenue !'; b.classList.add('show'); }
+    const tag = document.getElementById('cartTableTag');
+    if (tag) tag.textContent = tableLabel;
   }
 
-  // Écouter Firestore
   startMenuListener();
 
   setTimeout(() => {
-    document.getElementById('app-loader').classList.add('hide');
+    const loader = document.getElementById('app-loader');
+    if (loader) loader.classList.add('hide');
     renderMenu();
   }, 800);
 }
 
-// ── Firestore menu ───────────────────────────────────────────────
+// ── Résolution du RESTAURANT_ID courant ─────────────────────────
+function getRestaurantId() {
+  if (RESTAURANT_ID) return RESTAURANT_ID;
+  // Fallback : uid sauvegardé lors de l'onboarding
+  try {
+    const stored = JSON.parse(localStorage.getItem('menuos_config') || '{}');
+    if (stored.uid) { RESTAURANT_ID = stored.uid; return RESTAURANT_ID; }
+  } catch {}
+  return null;
+}
+
 function menuCol() {
   const { db, collection } = window.FB;
-  return RESTAURANT_ID
-    ? collection(db, 'restaurants', RESTAURANT_ID, 'menu_overrides')
+  const rid = getRestaurantId();
+  return rid
+    ? collection(db, 'restaurants', rid, 'menu_overrides')
     : collection(db, 'menu_overrides');
 }
 function ordersCol() {
   const { db, collection } = window.FB;
-  return RESTAURANT_ID
-    ? collection(db, 'restaurants', RESTAURANT_ID, 'orders')
+  const rid = getRestaurantId();
+  return rid
+    ? collection(db, 'restaurants', rid, 'orders')
     : collection(db, 'orders');
 }
 function menuDocRef(key) {
   const { db, doc } = window.FB;
-  return RESTAURANT_ID
-    ? doc(db, 'restaurants', RESTAURANT_ID, 'menu_overrides', key)
+  const rid = getRestaurantId();
+  return rid
+    ? doc(db, 'restaurants', rid, 'menu_overrides', key)
     : doc(db, 'menu_overrides', key);
 }
 
@@ -5522,6 +5957,8 @@ function renderMenu(filterCat) {
 // Versions par index (évitent les apostrophes dans onclick="")
 function addToCartIdx(idx) { addToCart(MENU[idx].nom); }
 function changeQtyIdx(idx, delta) { changeQty(MENU[idx].nom, delta); }
+// Alias pour updateCartDisplay (patch)
+function removeFromCart(idx) { removeCartItem(idx); }
 
 // ── Modale détail plat (tout par index, zéro string dans le DOM) ─
 function openDishModal(idx) {
@@ -5798,7 +6235,25 @@ function pinValidate() {
   setTimeout(() => { pinBuffer = ''; pinUpdateDots(); }, 800);
 }
 
-// Support clavier physique dans le panel admin
+// ── Sauvegarde PIN (panel admin view-app) ───────────────────────
+function saveAdminPin() {
+  const p1 = document.getElementById('newPinInput')?.value || '';
+  const p2 = document.getElementById('confirmPinInput')?.value || '';
+  if (!p1 || p1.length !== 4 || !/^\d{4}$/.test(p1)) {
+    showToast('PIN invalide (4 chiffres)', 'err'); return;
+  }
+  if (p1 !== p2) { showToast('PINs différents', 'err'); return; }
+  if (['0000','1111','1234','2222','3333','4444'].includes(p1)) {
+    showToast('PIN trop simple', 'err'); return;
+  }
+  CONFIG.adminPin = p1;
+  try {
+    const s = JSON.parse(localStorage.getItem('menuos_config') || '{}');
+    s.adminPin = p1;
+    localStorage.setItem('menuos_config', JSON.stringify(s));
+  } catch {}
+  showToast('✅ PIN modifié');
+}
 document.addEventListener('keydown', e => {
   if (document.getElementById('adminLogin').style.display !== 'none'
       && document.getElementById('adminOverlay').classList.contains('open')) {
@@ -6209,6 +6664,465 @@ function waitFBPromise() {
     } catch(e) {}
   }
 })();
+
+// ════════════════════════════════════════════════════════════════
+//  FONCTIONNALITÉS PREMIUM — F1 F4 F5 F8 F9 F14 F18 F19
+// ════════════════════════════════════════════════════════════════
+
+// ── F1 : IMPRESSION TICKET THERMIQUE ESC/POS Bluetooth ──────────
+let _btDevice = null, _btChar = null;
+
+async function printThermalTicket() {
+  if (!cart || !cart.length) { showToast('Panier vide', 'err'); return; }
+  const subtotal = cart.reduce((s, i) => s + i.prix * i.qty, 0);
+  const discount = getPromoDiscount(subtotal);
+  const total    = subtotal - discount;
+  const now      = new Date();
+  const dateStr  = now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+
+  // Construire le ticket ESC/POS
+  const ESC = 0x1B, GS = 0x1D;
+  const enc = new TextEncoder();
+  const lines = [];
+
+  const push = (str) => lines.push(...enc.encode(str + '\n'));
+  const pushRaw = (...bytes) => lines.push(...bytes);
+
+  // Init + center
+  pushRaw(ESC, 0x40);            // Reset
+  pushRaw(ESC, 0x61, 0x01);     // Centrer
+  pushRaw(ESC, 0x21, 0x10);     // Double hauteur
+  push(CONFIG.restaurantName || 'MENUOS');
+  pushRaw(ESC, 0x21, 0x00);     // Normal
+  push(CONFIG.restaurantAddr || '');
+  push(dateStr);
+  push('--------------------------------');
+  pushRaw(ESC, 0x61, 0x00);     // Gauche
+  if (tableLabel) push('Table : ' + tableLabel);
+  push('');
+  cart.forEach(item => {
+    const line = item.nom.slice(0, 20).padEnd(20) + ('x' + item.qty).padStart(4) + (item.prix * item.qty).toLocaleString('fr-FR').padStart(9) + ' F';
+    push(line);
+  });
+  push('--------------------------------');
+  if (discount > 0) {
+    push('Remise'.padEnd(24) + ('-' + discount.toLocaleString('fr-FR')).padStart(9) + ' F');
+  }
+  pushRaw(ESC, 0x21, 0x10);     // Double hauteur
+  push('TOTAL'.padEnd(24) + total.toLocaleString('fr-FR').padStart(9) + ' F');
+  pushRaw(ESC, 0x21, 0x00);
+  push('');
+  pushRaw(ESC, 0x61, 0x01);     // Centrer
+  push('Merci de votre visite !');
+  push('Powered by MenuOS');
+  push('');
+  pushRaw(GS, 0x56, 0x41, 0x10); // Couper le papier
+
+  const data = new Uint8Array(lines);
+
+  // Web Bluetooth (nécessite geste utilisateur — ce bouton EST le geste)
+  if (!navigator.bluetooth) {
+    _printFallback(total, dateStr);
+    return;
+  }
+  try {
+    if (!_btDevice || !_btDevice.gatt.connected) {
+      showToast('🔵 Connexion imprimante…');
+      _btDevice = await navigator.bluetooth.requestDevice({
+        filters: [{ services: ['000018f0-0000-1000-8000-00805f9b34fb'] }],
+        optionalServices: ['000018f0-0000-1000-8000-00805f9b34fb']
+      });
+      const server  = await _btDevice.gatt.connect();
+      const service = await server.getPrimaryService('000018f0-0000-1000-8000-00805f9b34fb');
+      _btChar = await service.getCharacteristic('00002af1-0000-1000-8000-00805f9b34fb');
+    }
+    // Envoyer par chunks de 100 octets
+    for (let i = 0; i < data.length; i += 100) {
+      await _btChar.writeValue(data.slice(i, i + 100));
+    }
+    showToast('✅ Ticket imprimé !', 'ok');
+  } catch (e) {
+    if (e.name !== 'NotFoundError') showToast('Erreur Bluetooth : ' + e.message, 'err');
+    _printFallback(total, dateStr);
+  }
+}
+
+function _printFallback(total, dateStr) {
+  // Fallback : impression navigateur
+  const win = window.open('', '_blank');
+  if (!win) { showToast('Autorisez les pop-ups pour imprimer', 'err'); return; }
+  const rows = cart.map(i =>
+    `<tr><td>${i.nom}</td><td style="text-align:center">${i.qty}</td><td style="text-align:right">${(i.prix*i.qty).toLocaleString('fr-FR')} F</td></tr>`
+  ).join('');
+  const disc = getPromoDiscount(cart.reduce((s,i)=>s+i.prix*i.qty,0));
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Ticket</title>
+  <style>body{font-family:monospace;width:80mm;margin:0 auto;font-size:11pt}
+  h2{text-align:center;font-size:13pt}p{text-align:center;font-size:9pt;color:#666}
+  table{width:100%;border-collapse:collapse}td{padding:3px 0}
+  tfoot td{border-top:1px dashed #000;font-weight:700}
+  hr{border:none;border-top:1px dashed #000}
+  .total{font-size:14pt;font-weight:700}</style></head><body>
+  <h2>${CONFIG.restaurantName}</h2><p>${CONFIG.restaurantAddr}<br>${dateStr}${tableLabel ? '<br>'+tableLabel : ''}</p>
+  <hr><table><tbody>${rows}</tbody><tfoot>
+  ${disc > 0 ? `<tr><td>Remise</td><td></td><td style="text-align:right">-${disc.toLocaleString('fr-FR')} F</td></tr>` : ''}
+  <tr><td class="total">TOTAL</td><td></td><td class="total" style="text-align:right">${total.toLocaleString('fr-FR')} F CFA</td></tr>
+  </tfoot></table><hr>
+  <p>Merci de votre visite !<br>Powered by MenuOS</p>
+  <script>window.onload=()=>{window.print();setTimeout(()=>window.close(),500)}<\/script>
+  </body></html>`);
+  win.document.close();
+}
+
+// ── F4 : SUIVI COMMANDE TEMPS RÉEL (Firestore onSnapshot) ────────
+let _trackerUnsub   = null;
+let _trackerOrderId = null;
+let _trackerCart    = [];
+let _trackerTotal   = 0;
+
+const STATUT_STEP = { nouveau: 1, en_cours: 2, pret: 3, livre: 4 };
+const STATUT_ETA  = { nouveau: '~20 min', en_cours: '~12 min', pret: '~2 min', livre: 'Livré !' };
+
+function showOrderTracker(orderId, orderCart, orderTotal) {
+  _trackerOrderId = orderId;
+  _trackerCart    = orderCart  || [...cart];
+  _trackerTotal   = orderTotal || cart.reduce((s, i) => s + i.prix * i.qty, 0);
+
+  document.getElementById('trackerOrderId').textContent = '#' + orderId;
+  document.getElementById('trackerReceiptBtn').style.display = 'block';
+  document.getElementById('orderTrackerModal').style.display = 'flex';
+  _trackerSetStep(1); // Reçue par défaut
+
+  // Écoute Firestore si dispo
+  if (window.FB?.ready) {
+    if (_trackerUnsub) _trackerUnsub();
+    const { onSnapshot, query, orderBy, where } = window.FB;
+    const liveEl = document.getElementById('trackerLiveStatus');
+    try {
+      _trackerUnsub = onSnapshot(
+        query(ordersCol(), orderBy('createdAt', 'desc')),
+        snap => {
+          const last = snap.docs[0];
+          if (!last) return;
+          const data = last.data();
+          const step = STATUT_STEP[data.statut] || 1;
+          _trackerSetStep(step);
+          if (liveEl) liveEl.textContent = '🟢 Mise à jour en temps réel';
+        },
+        () => {
+          if (liveEl) liveEl.textContent = '🔴 Mode simulation';
+          _simulateTracker();
+        }
+      );
+    } catch { _simulateTracker(); }
+  } else {
+    _simulateTracker();
+  }
+}
+
+function _trackerSetStep(step) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('track-' + i);
+    if (!el) continue;
+    el.className = 'tracker-step' + (i < step ? ' done' : i === step ? ' active' : '');
+  }
+  const eta = document.getElementById('trackerETA');
+  if (eta) eta.textContent = STATUT_ETA[Object.keys(STATUT_STEP)[step - 1]] || '~15 min';
+}
+
+function _simulateTracker() {
+  let step = 1;
+  const delays = [0, 4000, 9000, 15000];
+  delays.forEach((d, i) => setTimeout(() => _trackerSetStep(i + 1), d));
+}
+
+function closeOrderTracker() {
+  document.getElementById('orderTrackerModal').style.display = 'none';
+  if (_trackerUnsub) { _trackerUnsub(); _trackerUnsub = null; }
+}
+
+// ── F5 : REÇU NUMÉRIQUE WHATSAPP ────────────────────────────────
+function sendReceiptWhatsApp() {
+  const items = _trackerCart.length ? _trackerCart : cart;
+  const total = _trackerTotal || items.reduce((s, i) => s + i.prix * i.qty, 0);
+  const now   = new Date();
+  const date  = now.toLocaleDateString('fr-FR') + ' à ' + now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+  let msg = `🧾 *REÇU — ${CONFIG.restaurantName}*\n`;
+  msg += `📅 ${date}\n`;
+  if (tableLabel) msg += `📍 ${tableLabel}\n`;
+  msg += `\n`;
+  items.forEach(i => { msg += `• ${i.qty}× ${i.nom} — ${(i.prix * i.qty).toLocaleString('fr-FR')} F\n`; });
+  msg += `\n*TOTAL PAYÉ : ${total.toLocaleString('fr-FR')} F CFA*\n`;
+  msg += `\nMerci de votre confiance ! 🙏\n_Powered by MenuOS_`;
+
+  const wa = CONFIG.waNumber?.replace(/\D/g, '') || '22600000000';
+  window.open('https://wa.me/' + wa + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+// ── F8 : CLÔTURE JOURNALIÈRE → rapport WhatsApp ──────────────────
+function raCloture() {
+  const today = new Date().toDateString();
+  const todayO = raOrders.filter(o => {
+    const d = o.createdAt?.toDate ? o.createdAt.toDate() : (o.ts ? new Date(o.ts) : null);
+    return d && d.toDateString() === today;
+  });
+  if (!todayO.length) { raToast('Aucune commande aujourd\'hui', 'err'); return; }
+
+  const totalCA  = todayO.reduce((s, o) => s + (o.total || 0), 0);
+  const avg      = Math.round(totalCA / todayO.length);
+  const counts   = {};
+  todayO.forEach(o => (o.items||[]).forEach(it => { counts[it.nom] = (counts[it.nom]||0) + (it.qty||1); }));
+  const top3     = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0,3).map(([n,q]) => `• ${n} (${q}×)`).join('\n');
+  const dateStr  = new Date().toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+  let msg = `📋 *RAPPORT JOURNALIER — ${CONFIG.restaurantName}*\n`;
+  msg += `📅 ${dateStr}\n\n`;
+  msg += `📊 *Résumé*\n`;
+  msg += `• Commandes : *${todayO.length}*\n`;
+  msg += `• CA total : *${totalCA.toLocaleString('fr-FR')} F CFA*\n`;
+  msg += `• Ticket moyen : *${avg.toLocaleString('fr-FR')} F*\n\n`;
+  msg += `🏆 *Top plats du jour*\n${top3}\n\n`;
+  msg += `_Rapport généré par MenuOS_`;
+
+  const wa = CONFIG.waNumber?.replace(/\D/g, '') || '22600000000';
+  window.open('https://wa.me/' + wa + '?text=' + encodeURIComponent(msg), '_blank');
+
+  // Sauvegarder snapshot dans Firestore
+  if (window.FB?.ready) {
+    const { addDoc, serverTimestamp } = window.FB;
+    addDoc(ordersCol().firestore ? ordersCol() : window.FB.collection(window.FB.db, 'clotures'), {
+      date: dateStr, orders: todayO.length, ca: totalCA, avg,
+      top3: Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0,3).map(([n,q]) => ({ nom: n, qty: q })),
+      createdAt: serverTimestamp()
+    }).catch(() => {});
+  }
+  raToast('✅ Rapport envoyé sur WhatsApp', 'g');
+}
+
+// ── F9 : RAPPORT DANS SETTINGS (widget revenus) ──────────────────
+function raRenderRevenueWidget() {
+  const el = document.getElementById('raRevenueWidgetSettings');
+  if (!el) return;
+  const now7  = Date.now();
+  const days  = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+  const data  = Array(7).fill(0);
+  raOrders.forEach(o => {
+    const d = o.createdAt?.toDate ? o.createdAt.toDate() : (o.ts ? new Date(o.ts) : null);
+    if (!d) return;
+    const age = Math.floor((now7 - d.getTime()) / 86400000);
+    if (age < 7) data[6 - age] += (o.total || 0);
+  });
+  const max = Math.max(...data, 1);
+  const todayDow = (new Date().getDay() + 6) % 7;
+  el.innerHTML = `
+    <div style="display:flex;align-items:flex-end;gap:6px;height:56px;margin-bottom:8px">
+      ${data.map((v, i) => `<div style="flex:1;background:${i===todayDow?'var(--g)':'rgba(26,107,60,.25)'};border-radius:4px 4px 0 0;height:${Math.round(v/max*52)+4}px" title="${v.toLocaleString('fr-FR')} F"></div>`).join('')}
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:10px">
+      ${days.map((d,i) => `<div style="flex:1;font-size:.58rem;text-align:center;color:${i===todayDow?'var(--g)':'var(--muted)'}">${d}</div>`).join('')}
+    </div>
+    <div style="font-size:.82rem;color:var(--muted)">CA total 7j : <strong style="color:var(--dark)">${data.reduce((a,b)=>a+b,0).toLocaleString('fr-FR')} F CFA</strong></div>`;
+}
+
+// Injecter dans raShowDash
+const _origShowDash = raShowDash;
+// (patch sans redef complète — on accroche via le panel stats)
+document.addEventListener('DOMContentLoaded', () => {
+  const origRaShowPanel = raShowPanel;
+  window.raShowPanel = function(name, btnEl) {
+    origRaShowPanel(name, btnEl);
+    if (name === 'settings') { raRenderRevenueWidget(); franchiseRenderList(); }
+  };
+});
+
+// ── F14 : SUGGESTION MENU PERSONNALISÉE (historique localStorage) ─
+function getSuggestions(nom, cat) {
+  try {
+    const history = JSON.parse(localStorage.getItem('menuos_order_history') || '[]');
+    if (!history.length) return null;
+    // Compter les plats commandés
+    const freq = {};
+    history.forEach(o => (o.items || []).forEach(it => { freq[it.nom] = (freq[it.nom] || 0) + (it.qty || 1); }));
+    // Plats dans la même catégorie souvent commandés (hors plat actuel)
+    const reco = MENU.filter(m => m.cat === cat && m.nom !== nom && m.dispo && freq[m.nom])
+      .sort((a, b) => (freq[b.nom] || 0) - (freq[a.nom] || 0)).slice(0, 2);
+    return reco.length ? reco : null;
+  } catch { return null; }
+}
+
+function saveOrderToHistory(orderCart) {
+  try {
+    const history = JSON.parse(localStorage.getItem('menuos_order_history') || '[]');
+    history.unshift({ items: orderCart.map(i => ({ nom: i.nom, qty: i.qty })), ts: Date.now() });
+    localStorage.setItem('menuos_order_history', JSON.stringify(history.slice(0, 50)));
+  } catch {}
+}
+
+// Patch openDishModal pour afficher suggestion F14
+// Patch openDishModal — F14 suggestions + F18 galerie (patch unique)
+const _origOpenDishModal = openDishModal;
+window.openDishModal = function(idx) {
+  _origOpenDishModal(idx);
+  const item = MENU[idx];
+  if (!item) return;
+  // F14 : suggestion historique
+  const suggEl = document.getElementById('dmSuggestion');
+  if (suggEl) {
+    const sugg = getSuggestions(item.nom, item.cat);
+    if (sugg && sugg.length) {
+      suggEl.innerHTML = '💡 <strong>Vous aimez aussi :</strong> ' + sugg.map(s =>
+        `<span onclick="closeDishModal();setTimeout(()=>openDishModal(${MENU.indexOf(s)}),200)"
+         style="cursor:pointer;text-decoration:underline">${s.nom}</span>`
+      ).join(' · ');
+      suggEl.style.display = 'block';
+    } else {
+      suggEl.style.display = 'none';
+    }
+  }
+  // F18 : galerie multi-photos
+  dmGallerySetup(item);
+};
+
+// Patch sendWhatsApp pour sauvegarder l'historique
+const _origSendWA = sendWhatsApp;
+window.sendWhatsApp = function() {
+  saveOrderToHistory([...cart]);
+  _origSendWA();
+};
+
+// ── F18 : GALERIE MULTI-PHOTOS PAR PLAT ──────────────────────────
+// Banque de photos secondaires par catégorie (fallback générique)
+const CAT_EXTRA_PHOTOS = {
+  'Petits-dejeuners': [
+    'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=500&q=80',
+    'https://images.unsplash.com/photo-1495214783159-3503fd1b572d?w=500&q=80',
+  ],
+  'Entrees': [
+    'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&q=80',
+    'https://images.unsplash.com/photo-1547592180-85f173990554?w=500&q=80',
+  ],
+  'Plats': [
+    'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=500&q=80',
+    'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&q=80',
+  ],
+  'Grillades': [
+    'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=500&q=80',
+    'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80',
+  ],
+  'Boissons': [
+    'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=500&q=80',
+    'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=500&q=80',
+  ],
+  'Desserts': [
+    'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=500&q=80',
+    'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=500&q=80',
+  ],
+};
+let _dmPhotos = [];
+let _dmPhotoIdx = 0;
+
+function dmGallerySetup(item) {
+  const main  = item.img?.startsWith('http') ? item.img : '';
+  const extra = (item.photos || []).filter(Boolean);
+  const catEx = CAT_EXTRA_PHOTOS[item.cat] || [];
+  _dmPhotos   = [...new Set([main, ...extra, ...catEx].filter(Boolean))].slice(0, 5);
+  _dmPhotoIdx = 0;
+  dmGalleryRender();
+}
+
+function dmGalleryRender() {
+  const img  = document.getElementById('dmImg');
+  const dots = document.getElementById('dmGalleryDots');
+  const prev = document.getElementById('dmGalleryPrev');
+  const next = document.getElementById('dmGalleryNext');
+  if (!img) return;
+  img.src = _dmPhotos[_dmPhotoIdx] || '';
+  if (dots) dots.innerHTML = _dmPhotos.map((_, i) =>
+    `<span style="width:6px;height:6px;border-radius:50%;background:${i===_dmPhotoIdx?'white':'rgba(255,255,255,.4)'};display:inline-block;margin:0 2px;cursor:pointer" onclick="dmGalleryGoTo(${i})"></span>`
+  ).join('');
+  if (prev) prev.style.display = _dmPhotos.length > 1 ? 'flex' : 'none';
+  if (next) next.style.display = _dmPhotos.length > 1 ? 'flex' : 'none';
+}
+
+function dmGalleryNav(dir) {
+  _dmPhotoIdx = (_dmPhotoIdx + dir + _dmPhotos.length) % _dmPhotos.length;
+  dmGalleryRender();
+}
+function dmGalleryGoTo(i) { _dmPhotoIdx = i; dmGalleryRender(); }
+
+// Swipe tactile sur la galerie
+document.addEventListener('DOMContentLoaded', () => {
+  const gallery = document.getElementById('dmGallery');
+  if (!gallery) return;
+  let _sx = 0;
+  gallery.addEventListener('touchstart', e => { _sx = e.touches[0].clientX; }, { passive: true });
+  gallery.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - _sx;
+    if (Math.abs(dx) > 40) dmGalleryNav(dx < 0 ? 1 : -1);
+  }, { passive: true });
+});
+
+// ── F19 : MODE FRANCHISE ──────────────────────────────────────────
+let FRANCHISE_SITES = JSON.parse(localStorage.getItem('menuos_franchise') || '[]');
+
+function franchiseRenderList() {
+  const el = document.getElementById('franchiseList');
+  if (!el) return;
+  if (!FRANCHISE_SITES.length) {
+    el.innerHTML = '<div style="font-size:.8rem;color:var(--muted);padding:8px 0">Aucun site secondaire configuré.</div>';
+    return;
+  }
+  el.innerHTML = FRANCHISE_SITES.map((s, i) => `
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--lite);border-radius:10px;margin-bottom:8px">
+      <div style="flex:1">
+        <div style="font-size:.84rem;font-weight:700;color:var(--dark)">${s.name}</div>
+        <div style="font-size:.72rem;color:var(--muted)">${s.city} · ${s.wa || 'WhatsApp non défini'}</div>
+      </div>
+      <span style="font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:100px;background:rgba(26,107,60,.12);color:var(--g)">${s.orders || 0} cmd</span>
+      <button onclick="franchiseRemoveSite(${i})" style="background:rgba(229,62,62,.1);border:none;color:var(--red);border-radius:8px;padding:4px 8px;cursor:pointer;font-size:.75rem">✕</button>
+    </div>`).join('');
+}
+
+function franchiseAddSite() {
+  const name = prompt('Nom du site (ex: Chez Mamadou — Bobo)');
+  if (!name) return;
+  const city = prompt('Ville');
+  const wa   = prompt('WhatsApp (+226…)');
+  FRANCHISE_SITES.push({ name, city: city || '', wa: wa || '', orders: 0 });
+  localStorage.setItem('menuos_franchise', JSON.stringify(FRANCHISE_SITES));
+  franchiseRenderList();
+  raToast('✅ Site ajouté', 'g');
+}
+
+function franchiseRemoveSite(i) {
+  FRANCHISE_SITES.splice(i, 1);
+  localStorage.setItem('menuos_franchise', JSON.stringify(FRANCHISE_SITES));
+  franchiseRenderList();
+}
+
+function franchiseShowStats() {
+  if (!FRANCHISE_SITES.length) { raToast('Aucun site à consolider', 'err'); return; }
+  const totalCmd = raOrders.length + FRANCHISE_SITES.reduce((s, x) => s + (x.orders || 0), 0);
+  const totalCA  = raOrders.reduce((s, o) => s + (o.total || 0), 0);
+  raToast(`🏢 Franchise : ${FRANCHISE_SITES.length + 1} sites · ${totalCmd} cmd · ${totalCA.toLocaleString('fr-FR')} F CA`, 'g');
+}
+
+function franchiseSyncMenu() {
+  if (!FRANCHISE_SITES.length) { raToast('Aucun site configuré', 'err'); return; }
+  // En prod : écrire le menu dans chaque sous-collection Firestore
+  if (window.FB?.ready) {
+    const { db, collection, setDoc, doc, serverTimestamp } = window.FB;
+    const promises = FRANCHISE_SITES.map(site =>
+      MENU.slice(0, 10).map(item =>
+        setDoc(doc(db, 'franchise_menus', site.name.replace(/\s+/g,'_'), 'items', item.nom.replace(/\s+/g,'_')),
+          { ...item, syncedAt: serverTimestamp() }, { merge: true })
+      )
+    ).flat();
+    Promise.allSettled(promises).then(() => raToast('✅ Menu synchronisé sur tous les sites', 'g'));
+  } else {
+    raToast('✅ Sync simulée (mode démo)', 'g');
+  }
+}
 </script>
 </body>
 </html>
